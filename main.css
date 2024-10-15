@@ -1,0 +1,363 @@
+/*---------- Sets background picture to correct size ----------*/
+.background {
+  display: block;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html {
+  font-size: 55%;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Sets correct position of buttons of the New Tab ----------*/
+#calendarButton {
+  position: fixed;
+  top: 1.5%;
+  left: 0.5%;
+}
+
+#weatherButton {
+  position: fixed;
+  top: 1.5%;
+  right: 0.5%;
+}
+
+#speedtestButton {
+  position: fixed;
+  bottom: 1.5%;
+  left: 0.5%;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Formating buttons of the New Tab ----------*/
+.glow-on-hover {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1.55px solid white;
+  outline: none;
+  color: #fff;
+  background: #000000;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.glow-on-hover:before {
+  content: '';
+  background: linear-gradient(30deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  position: absolute;
+  top: -2px;
+  left:-2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4.5px);
+  height: calc(100% + 4.5px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+  border-radius: 10px;
+}
+
+.glow-on-hover:hover:before {
+  opacity: 1;
+}
+
+.glow-on-hover:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Clock and Date on Top of the New Tab ----------*/
+#clockDiv,
+#dateDiv {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-family: "Calibri";
+  font-style: oblique;
+  font-weight: 500;
+}
+
+#clockDiv {
+  top: 1%;
+  font-size: 70px;
+}
+
+#dateDiv {
+  top: 12%;
+  font-size: 35px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Calendar ----------*/
+
+.container {
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  margin: 0 auto;
+  height: 40.9%;
+  width: 19.6%;
+  left: 0.5%;
+  top: 7%;
+}
+
+.calendar {
+  font-family: Arial, sans-serif;
+  width: 300px; /* Ändern Sie die Breite nach Bedarf */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  text-align: center;
+  background-color: darkgrey;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-header .month-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 22px; /* Schriftgröße für Pfeile */
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid #ccc;
+}
+
+.calendar-day {
+  padding: 10px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  font-size: 14px; /* Ändern Sie die Schriftgröße nach Bedarf */
+  line-height: 1.4; /* Ändern Sie den Zeilenabstand nach Bedarf */
+  color: white; /* Schriftfarbe auf Weiß setzen */
+}
+
+.calendar-day.other-month {
+  color: #ccc; /* Farbe für Tage außerhalb des aktuellen Monats */
+}
+
+.calendar-day.holiday {
+  background-color: #ffc0cb; /* Hervorhebung für Feiertage */
+}
+
+.month-name {
+  font-size: 18px; /* Schriftgröße für Monatsnamen erhöhen */
+  font-weight: bold; /* Optionale Fettung */
+}
+
+
+.day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: darkgrey;
+  margin: 0;
+  padding: 0;
+}
+
+.day-name {
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Speedtest ----------*/
+.containerSpeedtest {
+  background-color: #000000d0;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  margin: 0 auto;
+  height: 0%;
+  width: 0%;
+  left: 0.5%;
+  bottom: 63%;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/*---------- Weather ----------*/
+.containerWeather {
+  position: fixed;
+  right: 0.5%;
+  top: 7%;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20%;
+  margin: 0;
+  background: #000000d0;
+}
+
+.card {
+  background: #000000d0;
+  color: white;
+  padding: 2em;
+  border-radius: 30px;
+  width: auto;
+  height: auto;
+  max-width: 420px;
+  font-size: 170%;
+  text-shadow: 0 0.3rem 0.5rem rgba(0,0,0,0.5);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton {
+  margin: 0.5em;
+  border-radius: 50%;
+  border: none;
+  height: 35px;
+  width: 35px;
+  outline: none;
+  background: #7c7c7c2b;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+input.search-bar {
+  border: 1px solid white;
+  outline: none;
+  padding: 0.4em 1em;
+  border-radius: 24px;
+  background: #7c7c7c2b;
+  color: white;
+  font-family: inherit;
+  font-size: 120%;
+  width: calc(100% - 60px);
+}
+
+button:hover {
+  background: #9191916b;
+}
+
+.temp {
+  margin: 0;
+  margin-bottom: 0.4em;
+  font-size:xx-large;
+  line-height: 3%;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  text-transform: capitalize;
+  margin-left: 8px;
+  font-size: large;
+}
+
+.feels_like {
+  font-style: italic;
+  font-size: small;
+}
+
+.other_data {
+  font-size: small;
+}
+
+.weather.loading {
+  visibility: hidden;
+  max-height: 20px;
+  position: relative;
+}
+
+.weather.loading:after {
+  visibility: visible;
+  content: "Laden...";
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.spinner {
+  width: 125px;
+  height: 125px;
+  background: white;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: spin 6s linear infinite;
+  position: fixed;
+  top: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+.spinner img {
+  width: 100%;
+  animation: bounce 0.2s linear infinite alternate;
+}
+
+#spinner1 {
+  left: 20%;
+}
+
+#spinner2 {
+  right: 20%;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(-1turn);
+  }
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(30px);
+  }
+}
