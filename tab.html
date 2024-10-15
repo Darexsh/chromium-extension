@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Neuer Tab</title>
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    body,
-    html {
+    body, html {
       height: 100%;
-      margin: auto;
+      margin: 0;
+      padding: 0;
     }
   </style>
 </head>
 
 <body>
-  <!--Necessary information for calendar-->
-  <a id="calendarDiv" style="display: none;">
+  <!-- Calendar -->
+  <div id="calendarDiv" style="display: none;">
     <div class="container">
       <div class="calendar">
         <div class="calendar-header">
-          <button id="prevMonth" class="month-button">&lt;</button>
+          <button id="prevMonth" class="month-button" aria-label="Previous month">&lt;</button>
           <h2 id="currentMonth" class="month-name"></h2>
-          <button id="nextMonth" class="month-button">&gt;</button>
+          <button id="nextMonth" class="month-button" aria-label="Next month">&gt;</button>
         </div>
         <div class="day-names">
           <span class="day-name">So</span>
@@ -37,26 +38,26 @@
         <div class="calendar-body" id="calendarBody"></div>
       </div>
     </div>
-  </a>
-  <!--Necessary information for calendar-->
-  <a id="weatherDiv" style="display: none;">
+  </div>
+
+  <!-- Weather -->
+  <div id="weatherDiv" style="display: none;">
     <div class="containerWeather">
       <div class="card">
         <div class="search">
-          <input type="text" class="search-bar" placeholder="Suche">
-          <button class="searchButton"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
-              viewBox="0 0 1024 1024" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z">
-              </path>
-            </svg></button>
+          <input type="text" class="search-bar" placeholder="Search" aria-label="Search city">
+          <button class="searchButton" aria-label="Start search">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
+              <path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path>
+            </svg>
+          </button>
         </div>
         <div class="weather loading">
           <h1 class="city"></h1>
           <h1 class="temp"></h1>
           <div class="feels_like"></div>
           <div class="flex">
-            <img src="" alt="" class="icon" />
+            <img src="" alt="Weather-icon" class="icon" />
             <div class="description"></div>
           </div>
           <div class="other_data">Weitere Daten:
@@ -68,41 +69,47 @@
         </div>
       </div>
     </div>
-  </a>
-  <!--Necessary information for speedtest-->
-  <a id="speedtestDiv" style="display: none;">
+  </div>
+
+  <!-- Speedtest -->
+  <div id="speedtestDiv" style="display: none;">
     <div class="containerSpeedtest">
       <div style="text-align: center;">
         <div style="min-height: 360px;">
           <div style="width: auto; height: 0; padding-bottom: 50%; position: relative;">
-            <iframe src="https://www.metercustom.net/plugin/" style="border: none;
-                position: fixed; bottom: auto; left: 0.4%; width: 23.2%; height: 56%; min-height: 360px; border-radius: 30px;
-                overflow: hidden !important;">
-            </iframe>
+            <iframe src="https://www.metercustom.net/plugin/" style="border: none; position: fixed; bottom: auto; left: 0.4%; width: 23.2%; height: 56%; min-height: 360px; border-radius: 30px; overflow: hidden !important;"></iframe>
           </div>
         </div>
       </div>
     </div>
-  </a>
-  <!--Passes buttons and formatings to CSS and JS-->
+  </div>
+
+  <!-- Controls -->
   <div id="calendarButton">
-    <button id="toggleCalendar" class="glow-on-hover">Kalender</button>
+    <button id="toggleCalendar" class="glow-on-hover" aria-label="Show calendar">Kalender</button>
   </div>
   <div id="weatherButton">
-    <button id="toggleWeather" class="glow-on-hover">Wetter</button>
+    <button id="toggleWeather" class="glow-on-hover" aria-label="Show weather">Wetter</button>
   </div>
   <div id="speedtestButton">
-    <button id="toggleSpeedtest" class="glow-on-hover">Speedtest</button>
+    <button id="toggleSpeedtest" class="glow-on-hover" aria-label="Show speedtest">Speedtest</button>
   </div>
+
+  <!-- Background image -->
   <div class="background"></div>
+
+  <!-- Clock and Date -->
   <div id="clockDiv"></div>
   <div id="dateDiv"></div>
-  <div id="spinner1" class="spinner">
-    <img src="pedro.png">
+
+  <!-- Spinners -->
+  <!--<div id="spinner1" class="spinner">
+    <img src="pedro.png" alt="Ladesymbol">
   </div>
   <div id="spinner2" class="spinner">
-    <img src="pedro.png">
-  </div>
+    <img src="pedro.png" alt="Ladesymbol">
+  </div>-->
+
   <!--Declares script of the New Tab-->
   <script src="script.js"></script>
 </body>

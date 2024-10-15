@@ -40,7 +40,7 @@ html {
 .glow-on-hover {
   padding: 6px 10px;
   font-size: 14px;
-  border: 1.55px solid white;
+  border: 2px solid grey;
   outline: none;
   color: #fff;
   background: #000000;
@@ -55,16 +55,16 @@ html {
   background: linear-gradient(30deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
   position: absolute;
   top: -2px;
-  left:-2px;
+  left: -2px;
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
   background-size: 400%;
   z-index: -1;
   filter: blur(5px);
-  width: calc(100% + 4.5px);
-  height: calc(100% + 4.5px);
+  border-radius: 10px;
   animation: glowing 20s linear infinite;
   opacity: 0;
-  transition: opacity .3s ease-in-out;
-  border-radius: 10px;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .glow-on-hover:hover:before {
@@ -84,9 +84,8 @@ html {
 }
 
 @keyframes glowing {
-  0% { background-position: 0 0; }
+  0%, 100% { background-position: 0 0; }
   50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -123,8 +122,8 @@ html {
   align-items: center;
   position: fixed;
   margin: 0 auto;
-  height: 40.9%;
-  width: 19.6%;
+  height: 33%;
+  width: 15.8%;
   left: 0.5%;
   top: 7%;
 }

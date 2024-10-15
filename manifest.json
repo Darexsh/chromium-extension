@@ -3,6 +3,7 @@
     "name": "New Tab Extensions",
     "version": "6.0",
     "description": "Custom New Tab with custom Icons. Wallpaper resizes with display size. Comes with a calendar, which shows the current date and the holidays, a weather and a speedtest widget.",
+    "author": "Daniel Sichler",
     "icons": {
         "128": "icons/icon128.png",
         "48": "icons/icon48.png",
