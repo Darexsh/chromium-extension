@@ -1,7 +1,7 @@
 // Utility function to toggle visibility of sections
 function toggleSectionVisibility(sectionId) {
   const targetSection = document.getElementById(sectionId);
-  targetSection.style.display = targetSection.style.display === "none" ? "block" : "none";
+  targetSection.classList.toggle('hidden');
 }
 
 // Add event listeners for buttons to toggle sections
@@ -17,27 +17,64 @@ function toggleSectionVisibility(sectionId) {
 document.addEventListener('click', function (event) {
   ['calendarDiv', 'weatherDiv', 'speedtestDiv'].forEach(sectionId => {
     const container = document.getElementById(sectionId);
-    if (container.style.display === 'block' && !container.contains(event.target)) {
-      container.style.display = 'none';
+    if (!container.classList.contains('hidden') && !container.contains(event.target)) {
+      container.classList.add('hidden');
     }
   });
 });
 
-// Set background image
+/// Set background image
 function setBackground(url) {
-  document.querySelector('.background').style.backgroundImage = `url('${url}')`;
+  const backgroundElement = document.querySelector('.background');
+  backgroundElement.style.backgroundImage = `url('${url}')`;
+  console.log(`Hintergrundbild gesetzt: ${url}`); // Debugging
 }
-setBackground('default.png');
+
+// Load background image from chrome.storage on page load
+chrome.storage.local.get(['backgroundImage'], function (result) {
+  const savedBackground = result.backgroundImage;
+  if (savedBackground) {
+    setBackground(savedBackground); // Set saved image as background
+  } else {
+    setBackground('default.png'); // Fallback image if none is saved
+  }
+});
+
+// Add event listener for background change from file input
+document.getElementById('backgroundInput').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const imageDataUrl = e.target.result;
+      setBackground(imageDataUrl); // Set new image as background
+      // Save new image to chrome.storage
+      chrome.storage.local.set({ 'backgroundImage': imageDataUrl }, function () {
+        console.log('Hintergrundbild wurde gespeichert.');
+      });
+    };
+    reader.readAsDataURL(file); // Read the file as a data URL
+  }
+});
+
+// Add event listener for resetting background
+document.getElementById('resetBackground').addEventListener('click', function (event) {
+  event.stopPropagation();
+  chrome.storage.local.remove('backgroundImage', function () {
+    setBackground('default.png'); // Setzt das Standardbild
+    console.log('Hintergrundbild wurde zurückgesetzt.');
+  });
+});
 
 // Display current time
 setInterval(() => {
   const date = new Date();
-  const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const timeString = date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   document.getElementById("clockDiv").innerHTML = timeString;
-});
+}, 1000);
 
 // Display current date with week number
-  setInterval(() => {
+setInterval(() => {
   const date = new Date();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const dateString = date.toLocaleDateString('de-DE', options);
@@ -46,39 +83,47 @@ setInterval(() => {
   const firstThursday = new Date(new Date(yearOfThursday, 0, 4).getTime() + (3 - ((new Date(yearOfThursday, 0, 4).getDay() + 6) % 7)) * 86400000);
   let weekNumber = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000 / 7);
   weekNumber = ("0" + weekNumber).slice(-2);
-  const dateStringWithWeek = dateString + "<span style='color: grey;'> - KW " + weekNumber + "</span>";
+  const dateStringWithWeek = `${dateString} <span class="week-number"> - KW ${weekNumber}</span>`;
   document.getElementById("dateDiv").innerHTML = dateStringWithWeek;
-});
+}, 1000);
 
 // Weather functionality
 const weather = {
   apiKey: "cbfc45f4f8520b8a731ed6fe6b2bc752",
-  fetchWeather: function (city) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=de&appid=${this.apiKey}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Kein Wetter gefunden!");
-        }
-        return response.json();
-      })
-      .then(data => this.displayWeather(data))
-      .catch(error => alert(error.message));
+  fetchWeather: async function (city) {
+    try {
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=de&appid=${this.apiKey}`);
+      if (!response.ok) {
+        throw new Error("Stadt nicht gefunden oder Netzwerkfehler.");
+      }
+      const data = await response.json();
+      this.displayWeather(data);
+    } catch (error) {
+      alert(`Fehler beim Abrufen der Wetterdaten: ${error.message}`);
+      document.querySelector('.weather').classList.remove('loading');
+    }
   },
   displayWeather: function (data) {
     const { name, weather, main, wind } = data;
     document.querySelector('.city').innerText = `Wetter in ${name}`;
     document.querySelector('.icon').src = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
+    document.querySelector('.icon').alt = `Wetter-Symbol: ${weather[0].description}`;
     document.querySelector('.description').innerText = weather[0].description;
-    document.querySelector('.temp').innerText = `${main.temp} °C`;
-    document.querySelector('.feels_like').innerText = `Gefühlt: ${main.feels_like} °C`;
+    document.querySelector('.temp').innerText = `${Math.round(main.temp)} °C`;
+    document.querySelector('.feels_like').innerText = `Gefühlt: ${Math.round(main.feels_like)} °C`;
     document.querySelector('.humidity').innerText = `- Luftfeuchtigkeit: ${main.humidity}%`;
     document.querySelector('.wind').innerText = `- Windgeschwindigkeit: ${wind.speed} km/h`;
-    document.querySelector('.temp_min').innerText = `- Tiefsttemperatur: ${main.temp_min} °C`;
-    document.querySelector('.temp_max').innerText = `- Höchsttemperatur: ${main.temp_max} °C`;
+    document.querySelector('.temp_min').innerText = `- Tiefsttemperatur: ${Math.round(main.temp_min)} °C`;
+    document.querySelector('.temp_max').innerText = `- Höchsttemperatur: ${Math.round(main.temp_max)} °C`;
     document.querySelector('.weather').classList.remove('loading');
   },
   search: function () {
-    this.fetchWeather(document.querySelector('.search-bar').value);
+    const city = document.querySelector('.search-bar').value.trim();
+    if (city) {
+      this.fetchWeather(city);
+    } else {
+      alert("Bitte eine Stadt eingeben!");
+    }
   }
 };
 
@@ -107,15 +152,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
 
-    let startDay = firstDay.getDay() === 0 ? 7 : firstDay.getDay();
+    let startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1; // Montag als erster Tag
     const prevMonthLastDate = new Date(year, month, 0).getDate();
 
+    // Tage des Vormonats
     for (let i = startDay - 1; i >= 0; i--) {
       createDayElement(prevMonthLastDate - i, 'other-month');
     }
 
+    // Tage des aktuellen Monats
     for (let i = 1; i <= lastDay.getDate(); i++) {
-      createDayElement(i, isHoliday(new Date(year, month, i)) ? 'holiday' : '');
+      const date = new Date(year, month, i);
+      const isToday = date.toDateString() === new Date().toDateString();
+      const className = isHoliday(date) ? 'holiday' : (isToday ? 'today' : '');
+      createDayElement(i, className);
+    }
+
+    // Tage des Folgemonats (optional, um das Grid zu füllen)
+    const totalDays = (startDay + lastDay.getDate()) % 7;
+    if (totalDays !== 0) {
+      const daysToAdd = 7 - totalDays;
+      for (let i = 1; i <= daysToAdd; i++) {
+        createDayElement(i, 'other-month');
+      }
     }
   }
 
@@ -129,20 +188,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function isHoliday(date) {
     const holidays = [
-      [0, 1], [0, 6], [4, 1], [9, 3], [11, 25], [11, 26], [11, 24], [11, 31]
+      [0, 1],  // Neujahr
+      [0, 6],  // Heilige Drei Könige
+      [4, 1],  // Tag der Arbeit
+      [9, 3],  // Tag der Deutschen Einheit
+      [10, 1], // Allerheiligen
+      [11, 24], // Heiligabend
+      [11, 25], // 1. Weihnachtsfeiertag
+      [11, 26], // 2. Weihnachtsfeiertag
+      [11, 31]  // Silvester
     ];
-    
+
     const easterDate = calculateEasterDate(date.getFullYear());
     const movableHolidays = [
-      new Date(easterDate.setDate(easterDate.getDate() + 1)),    // Ostermontag
-      new Date(easterDate.setDate(easterDate.getDate() + 49)),   // Pfingstmontag
-      new Date(easterDate.setDate(easterDate.getDate() - 52)),   // Karfreitag
-      new Date(easterDate.setDate(easterDate.getDate() + 39)),   // Christi Himmelfahrt
-      new Date(easterDate.setDate(easterDate.getDate() + 60))    // Fronleichnam
+      new Date(easterDate.getTime() - 2 * 86400000), // Karfreitag
+      new Date(easterDate.getTime() + 1 * 86400000), // Ostermontag
+      new Date(easterDate.getTime() + 39 * 86400000), // Christi Himmelfahrt
+      new Date(easterDate.getTime() + 49 * 86400000), // Pfingstmontag
+      new Date(easterDate.getTime() + 60 * 86400000)  // Fronleichnam
     ];
 
     return holidays.some(([m, d]) => m === date.getMonth() && d === date.getDate()) ||
-           movableHolidays.some(holiday => holiday.getTime() === date.getTime());
+           movableHolidays.some(holiday => holiday.toDateString() === date.toDateString());
   }
 
   function calculateEasterDate(year) {
