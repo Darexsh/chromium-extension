@@ -71,7 +71,7 @@ setInterval(() => {
   const date = new Date();
   const timeString = date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   document.getElementById("clockDiv").innerHTML = timeString;
-}, 1000);
+});
 
 // Display current date with week number
 setInterval(() => {
@@ -85,7 +85,7 @@ setInterval(() => {
   weekNumber = ("0" + weekNumber).slice(-2);
   const dateStringWithWeek = `${dateString} <span class="week-number"> - KW ${weekNumber}</span>`;
   document.getElementById("dateDiv").innerHTML = dateStringWithWeek;
-}, 1000);
+});
 
 // Weather functionality
 const weather = {
