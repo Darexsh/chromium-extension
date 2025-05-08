@@ -10,3 +10,4 @@ Installation instructions:
 - Left top corner: Calendar
 - Right top corner: Weather (standard location can be changed in the `script.js` file with the line `weather.fetchWeather("Deggendorf");`)
 - Left bottom corner: Speedtest
+- Right bottom corner: Change background picture
