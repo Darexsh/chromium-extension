@@ -5,9 +5,9 @@
     "description": "Ein benutzerdefinierter New Tab mit Kalender (inkl. Feiertage), Wettervorhersage und Speedtest-Widget. Das Hintergrundbild passt sich der Bildschirmgröße an. Ebenfalls kann das Hintergrundbild geändert werden (verwendet die Chrome storage API).",
     "author": "Daniel Sichler",
     "icons": {
-      "128": "icons/icon128.png",
-      "48": "icons/icon48.png",
-      "16": "icons/icon16.png"
+      "128": "icons/One_Piece/icon128.png",
+      "48": "icons/One_Piece/icon48.png",
+      "16": "icons/One_Piece/icon16.png"
     },
     "chrome_url_overrides": {
       "newtab": "tab.html"
