@@ -89,7 +89,7 @@ setInterval(() => {
 
 // Weather functionality
 const weather = {
-  apiKey: "$API_KEY",
+  apiKey: "cbfc45f4f8520b8a731ed6fe6b2bc752",
   fetchWeather: async function (city) {
     try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=de&appid=${this.apiKey}`);
