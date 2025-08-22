@@ -40,6 +40,18 @@ html, body {
   left: 0.5%;
 }
 
+#resetBackgroundButton {
+  position: fixed;
+  bottom: 1.5%;
+  right: 0.5%;
+}
+
+#backgroundButton {
+  position: fixed;
+  bottom: calc(5% + 2rem);
+  right: 0.5%;
+}
+
 /* Glow Button Styles */
 .glow-on-hover {
   padding: 6px 10px;
@@ -357,21 +369,4 @@ input.search-bar {
     font-size: 25px;
     top: 15%;
   }
-}
-
-#backgroundButton {
-  position: fixed;
-  bottom: 6%;
-  right: 0.5%;
-}
-
-#backgroundButton .glow-on-hover {
-  display: inline-block;
-  text-align: center;
-}
-
-#resetBackgroundButton {
-  position: fixed;
-  bottom: 1.5%;
-  right: 0.5%;
 }
