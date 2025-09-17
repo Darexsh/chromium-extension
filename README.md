@@ -1,9 +1,7 @@
-* * *
+Chromium Extension
+==================
 
-🧩 Google Chrome Extension
-==========================
-
-A custom **Google Chrome extension** (also works with **Firefox Nightly Dev builds**) that enhances your new tab page with widgets like time, calendar, weather, speedtest, and background customization.
+A custom **Chromium-based browser extension** (compatible with Chrome, Edge, Brave, and other Chromium browsers) that enhances your new tab page with widgets like time, calendar, weather, speedtest, and background customization.
 
 * * *
 
@@ -12,7 +10,7 @@ A custom **Google Chrome extension** (also works with **Firefox Nightly Dev buil
 
 1. Clone or [download this repo](#).
     
-2. Open Chrome → `Settings` → `Extensions` → enable **Developer mode**.
+2. Open your browser → `Settings` → `Extensions` → enable **Developer mode**.
     
 3. Click **Load unpacked** → select this repo’s folder → ✅ Done!
     
@@ -24,9 +22,7 @@ A custom **Google Chrome extension** (also works with **Firefox Nightly Dev buil
 
 1. **Open your browser**
     
-    * Works on **Google Chrome**
-        
-    * Also works on **Firefox Nightly (Dev builds only)**
+    * Works on **any Chromium-based browser** (Chrome, Edge, Brave, etc.)
         
 2. **Enable Developer Mode**
     
@@ -56,7 +52,7 @@ A custom **Google Chrome extension** (also works with **Firefox Nightly Dev buil
     
     * Default location: `Deggendorf`
         
-    * To change: edit `script.js` → update this line:
+    * To change: edit `script.js` →
         
         ```js
         weather.fetchWeather("YourCityHere");
@@ -81,13 +77,13 @@ Here’s how the extension looks in action:
 📝 Notes
 --------
 
-* Default weather location can be customized inside `script.js`.
+* Default weather location can be customized inside `script.js`
     
 * Background images can be replaced with your own (default must replace `default.png`)
-
-* Images set with the buttons are saved through Chrome Storage.
     
-* Works best on the latest Chrome or Firefox Nightly builds.
+* Images set with the buttons are saved through browser storage
+    
+* Works best on the latest Chromium-based browsers
     
 
 * * *
