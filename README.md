@@ -2,15 +2,13 @@
 
 <div align="center">
 
-🌦️ Chromium Extension
+🌐 Chromium Extension
 ============================
 
 **A customizable new tab extension with widgets for time, calendar, weather, speedtest, and background images**  
-🖥️🌡️💧☀️🌐
-
+🖥️📅☁️⚡🌈
 
 ![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![Lizenz](https://img.shields.io/badge/Lizenz-MIT-blue) ![Version](https://img.shields.io/badge/Version-1.0-orange)
-
 
 </div>
 
