@@ -110,6 +110,7 @@ Here’s how the extension looks in action:
 * Images set with the buttons are saved through browser storage
     
 * Works best on the latest Chromium-based browsers
+* **Commercial use is not permitted**. You may use, modify, and distribute this project only for non-commercial purposes.
     
 
 * * *
