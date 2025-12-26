@@ -6,6 +6,14 @@
   <title>Neuer Tab</title>
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOp8yQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    /* Increase base font-size and ensure form controls inherit sizing */
+    :root { font-size: 18px; }
+    html, body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height: 1.4; }
+    button, input, select, textarea, label { font: inherit; font-size: inherit; line-height: inherit; }
+    /* Ensure svg icons scale with text */
+    button svg, .glow-on-hover svg { height: 1em; width: 1em; vertical-align: -0.125em; }
+  </style>
 </head>
 <body>
   <main>
@@ -78,7 +86,7 @@
     <button id="toggleSpeedtest" class="glow-on-hover" aria-label="Speedtest anzeigen">Speedtest</button>
   </div>
   <div id="backgroundButton">
-    <button for="backgroundInput" class="glow-on-hover" aria-label="Hintergrundbild auswählen">Hintergrund ändern</button>
+    <label for="backgroundInput" class="glow-on-hover" aria-label="Hintergrundbild auswählen" aria-setsize="10">Hintergrund ändern</label>
     <input type="file" id="backgroundInput" accept="image/*" style="display: none;">
   </div>
   <div id="resetBackgroundButton">

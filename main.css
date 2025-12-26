@@ -48,7 +48,7 @@ html, body {
 
 #backgroundButton {
   position: fixed;
-  bottom: calc(5% + 2rem);
+  bottom: calc(3% + 2rem);
   right: 0.5%;
 }
 
