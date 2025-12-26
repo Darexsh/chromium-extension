@@ -110,7 +110,7 @@ html, body {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  color: white;
+  color: red;
   font-family: "Calibri";
   font-style: oblique;
   font-weight: 500;
@@ -127,7 +127,7 @@ html, body {
 }
 
 .week-number {
-  color: grey;
+  color: lightgray;
 }
 
 /* Calendar */
