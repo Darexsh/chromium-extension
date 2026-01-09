@@ -1,0 +1,107 @@
+/* Settings */
+.setting {
+  margin-bottom: 1.5em;
+}
+
+.setting label {
+  display: block;
+  margin-bottom: 0.6em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.setting input,
+.setting select {
+  width: 100%;
+  padding: 0.8em 1em;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-bright);
+  font-family: var(--font-ui);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.setting input[type="range"] {
+  padding: 0;
+  height: 36px;
+  background: transparent;
+  border: none;
+}
+
+.setting input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.setting input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--text-bright);
+  box-shadow: 0 0 10px rgba(124, 240, 255, 0.4);
+}
+
+.setting input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.setting input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: var(--text-bright);
+  box-shadow: 0 0 10px rgba(124, 240, 255, 0.4);
+}
+
+.setting select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(245, 247, 255, 0.9) 50%),
+    linear-gradient(135deg, rgba(245, 247, 255, 0.9) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.4em;
+}
+
+.setting select option {
+  color: #0b0f1c;
+  background-color: #f5f7ff;
+}
+
+.setting input:focus,
+.setting select:focus {
+  outline: none;
+  border-color: rgba(124, 240, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.action-button {
+  width: 100%;
+  padding: 0.9em 1em;
+  margin-top: 1em;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(124, 240, 255, 0.9), rgba(140, 180, 255, 0.9));
+  color: #08111f;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(124, 240, 255, 0.25);
+}

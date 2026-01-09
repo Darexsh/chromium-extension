@@ -1,0 +1,219 @@
+{
+  "extensionName": {
+    "message": "New Tab Extensions",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "A glass-style new tab with time, calendar week, holidays, WetterOnline weather, speedtest, customizable background, and settings.",
+    "description": "The description of the extension."
+  },
+  "newTabTitle": {
+    "message": "New Tab",
+    "description": "The title of the new tab page."
+  },
+  "calendar": {
+    "message": "Calendar",
+    "description": "The text for the calendar button."
+  },
+  "weather": {
+    "message": "Weather",
+    "description": "The text for the weather button."
+  },
+  "speedtest": {
+    "message": "Speedtest",
+    "description": "The text for the speedtest button."
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "The text for the settings button."
+  },
+  "changeBackground": {
+    "message": "Change Background",
+    "description": "The text for the change background button."
+  },
+  "previousMonth": {
+    "message": "Previous Month",
+    "description": "The label for the previous month button in the calendar."
+  },
+  "nextMonth": {
+    "message": "Next Month",
+    "description": "The label for the next month button in the calendar."
+  },
+  "save": {
+    "message": "Save",
+    "description": "The text for the save button."
+  },
+  "backgroundSet": {
+    "message": "Background image set: $url$",
+    "description": "The console log message when the background image is set.",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "default.png"
+      }
+    }
+  },
+  "backgroundSaved": {
+    "message": "Background image has been saved.",
+    "description": "The console log message when the background image is saved."
+  },
+  "backgroundReset": {
+    "message": "Background image has been reset.",
+    "description": "The console log message when the background image is reset."
+  },
+  "sun": {
+    "message": "Sun"
+  },
+  "mon": {
+    "message": "Mon"
+  },
+  "tue": {
+    "message": "Tue"
+  },
+  "wed": {
+    "message": "Wed"
+  },
+  "thu": {
+    "message": "Thu"
+  },
+  "fri": {
+    "message": "Fri"
+  },
+  "sat": {
+    "message": "Sat"
+  },
+  "jan": {
+    "message": "January"
+  },
+  "feb": {
+    "message": "February"
+  },
+  "mar": {
+    "message": "March"
+  },
+  "apr": {
+    "message": "April"
+  },
+  "may": {
+    "message": "May"
+  },
+  "jun": {
+    "message": "June"
+  },
+  "jul": {
+    "message": "July"
+  },
+  "aug": {
+    "message": "August"
+  },
+  "sep": {
+    "message": "September"
+  },
+  "oct": {
+    "message": "October"
+  },
+  "nov": {
+    "message": "November"
+  },
+  "dec": {
+    "message": "December"
+  },
+  "background": {
+    "message": "Background"
+  },
+  "locationLabel": {
+    "message": "City"
+  },
+  "locationPlaceholder": {
+    "message": "Berlin"
+  },
+  "stateLabel": {
+    "message": "State"
+  },
+  "backgroundDimLabel": {
+    "message": "Background Dim"
+  },
+  "clockColorLabel": {
+    "message": "Time & Date Color"
+  },
+  "enterLocation": {
+    "message": "Please enter a city."
+  },
+  "enterState": {
+    "message": "Please select a state."
+  },
+  "weatherWidgetTitle": {
+    "message": "Weather widget"
+  },
+  "weekLabel": {
+    "message": "CW $week$",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      }
+    }
+  },
+  "stateBw": {
+    "message": "Baden-Württemberg"
+  },
+  "stateBy": {
+    "message": "Bavaria"
+  },
+  "stateBe": {
+    "message": "Berlin"
+  },
+  "stateBb": {
+    "message": "Brandenburg"
+  },
+  "stateHb": {
+    "message": "Bremen"
+  },
+  "stateHh": {
+    "message": "Hamburg"
+  },
+  "stateHe": {
+    "message": "Hesse"
+  },
+  "stateMv": {
+    "message": "Mecklenburg-Vorpommern"
+  },
+  "stateNi": {
+    "message": "Lower Saxony"
+  },
+  "stateNw": {
+    "message": "North Rhine-Westphalia"
+  },
+  "stateRp": {
+    "message": "Rhineland-Palatinate"
+  },
+  "stateSl": {
+    "message": "Saarland"
+  },
+  "stateSn": {
+    "message": "Saxony"
+  },
+  "stateSt": {
+    "message": "Saxony-Anhalt"
+  },
+  "stateSh": {
+    "message": "Schleswig-Holstein"
+  },
+  "stateTh": {
+    "message": "Thuringia"
+  },
+  "defaultLocation": {
+    "message": "Berlin"
+  },
+  "defaultStateCode": {
+    "message": "be"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "backgroundChangeShort": {
+    "message": "Change"
+  },
+  "backgroundResetShort": {
+    "message": "Reset"
+  }
+}

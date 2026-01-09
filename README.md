@@ -5,7 +5,7 @@
 🌐 Chromium Extension
 ============================
 
-**A customizable new tab extension with widgets for time, calendar, weather, speedtest, and background images**  
+**A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and background images**  
 🖥️📅☁️⚡🌈
 
 ![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![Lizenz](https://img.shields.io/badge/Lizenz-NonCommercial%20MIT-blue) ![Version](https://img.shields.io/badge/Version-6.0-orange)
@@ -19,7 +19,7 @@
 
 | Name | GitHub | Role | Contact | Contributions |
 | --- | --- | --- | --- | --- |
-| **[Daniel Sichler aka Darexsh](https://github.com/Darexsh)** | [Link](https://github.com/Darexsh?tab=repositories) | Extension & Web Development 🖥️🛠️, UI Design 🎨 | 📧 [E-Mail](mailto:sichler.daniel@gmail.com) | Concept, Widget Development, Web Dashboard, UI Design, Feature Integration |
+| **[Darexsh by Daniel Sichler](https://github.com/Darexsh)** | [Link](https://github.com/Darexsh?tab=repositories) | Extension & Web Development 🖥️🛠️, UI Design 🎨 | 📧 [E-Mail](mailto:sichler.daniel@gmail.com) | Concept, Widget Development, Web Dashboard, UI Design, Feature Integration |
 
 
 * * *
@@ -27,7 +27,32 @@
 🚀 About the Project
 --------------------
 
-A custom **extension for Chromium-based browsers** (Chrome, Edge, Brave, and others) which shows the current date, time and calendar week. Shortcuts for a calendar, weather, speedtest and image changer are also given. Also compatible with **Firefox Nightly Dev builds**.
+A custom **extension for Chromium-based browsers** (Chrome, Edge, Brave, and others) which shows the current date, time and calendar week. Shortcuts for a calendar, weather, speedtest and image changer are also given.
+
+* * *
+
+🖼️ Preview
+-----------
+
+Here’s how the extension looks in action:
+
+<table>
+  <tr>
+    <td align="center"><b>New Tab</b><br><img src="Screenshots/Overlay.png"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><b>Widgets</b><br><img src="Screenshots/Widgets.png"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><b>Settings</b><br><img src="Screenshots/Settings.png"></td>
+  </tr>
+</table>
 
 * * *
 
@@ -72,44 +97,41 @@ A custom **extension for Chromium-based browsers** (Chrome, Edge, Brave, and oth
 
 * **Center (top):** Current time, date, and calendar week
     
-* **Top left:** Calendar
+* **Left widget:** Calendar with holidays (via api-feiertage.de)
     
-* **Top right:** Weather widget
+* **Middle widget:** Weather widget (WetterOnline iframe)
     
-    * Default location: `Deggendorf`
+    * Default location: `Berlin`
         
-    * To change: edit `script.js` →
+    * Change the city in **Settings**
         
-        ```js
-        weather.fetchWeather("YourCityHere");
-        ```
+* **Right widget:** Speedtest widget
+    
+* **Dock (bottom):** Calendar, Weather, Speedtest, Background, Settings
+    
+* **Settings:**
+    
+    * City input for the weather widget
         
-* **Bottom left:** Speedtest shortcut
-    
-* **Bottom right:** Background image changer
-    
-
-* * *
-
-🖼️ Preview
------------
-
-Here’s how the extension looks in action:
-
-![Extension preview](/preview.jpg)
+    * Bundesland selector (holidays by state)
+        
+    * Background dimming slider (0–100)
+        
+    * Color picker for time/date text
 
 * * *
 
 📝 Notes
 --------
 
-* Default weather location can be customized inside `script.js`
+* Weather and holiday settings are saved in browser storage
     
 * Background images can be replaced with your own (default must replace `default.png`)
     
 * Images set with the buttons are saved through browser storage
     
 * Works best on the latest Chromium-based browsers
+
 * **Commercial use is not permitted**. You may use, modify, and distribute this project only for non-commercial purposes.
     
 

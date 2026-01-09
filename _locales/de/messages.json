@@ -1,0 +1,219 @@
+{
+  "extensionName": {
+    "message": "New Tab Extensions",
+    "description": "Der Name der Erweiterung."
+  },
+  "extensionDescription": {
+    "message": "Ein Glass-New-Tab mit Uhrzeit, Kalenderwoche, Feiertagen, WetterOnline-Wetter, Speedtest, anpassbarem Hintergrund und Einstellungen.",
+    "description": "Die Beschreibung der Erweiterung."
+  },
+  "newTabTitle": {
+    "message": "Neuer Tab",
+    "description": "Der Titel der neuen Tab-Seite."
+  },
+  "calendar": {
+    "message": "Kalender",
+    "description": "Der Text für die Kalender-Schaltfläche."
+  },
+  "weather": {
+    "message": "Wetter",
+    "description": "Der Text für die Wetter-Schaltfläche."
+  },
+  "speedtest": {
+    "message": "Speedtest",
+    "description": "Der Text für die Speedtest-Schaltfläche."
+  },
+  "settings": {
+    "message": "Einstellungen",
+    "description": "Der Text für die Einstellungs-Schaltfläche."
+  },
+  "changeBackground": {
+    "message": "Hintergrund ändern",
+    "description": "Der Text für die Schaltfläche zum Ändern des Hintergrunds."
+  },
+  "previousMonth": {
+    "message": "Vorheriger Monat",
+    "description": "Die Beschriftung für die Schaltfläche 'Vorheriger Monat' im Kalender."
+  },
+  "nextMonth": {
+    "message": "Nächster Monat",
+    "description": "Die Beschriftung für die Schaltfläche 'Nächster Monat' im Kalender."
+  },
+  "save": {
+    "message": "Speichern",
+    "description": "Der Text für die Speicher-Schaltfläche."
+  },
+  "backgroundSet": {
+    "message": "Hintergrundbild gesetzt: $url$",
+    "description": "Die Konsolenprotokollnachricht, wenn das Hintergrundbild festgelegt wird.",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "default.png"
+      }
+    }
+  },
+  "backgroundSaved": {
+    "message": "Hintergrundbild wurde gespeichert.",
+    "description": "Die Konsolenprotokollnachricht, wenn das Hintergrundbild gespeichert wird."
+  },
+  "backgroundReset": {
+    "message": "Hintergrundbild wurde zurückgesetzt.",
+    "description": "Die Konsolenprotokollnachricht, wenn das Hintergrundbild zurückgesetzt wird."
+  },
+  "sun": {
+    "message": "So"
+  },
+  "mon": {
+    "message": "Mo"
+  },
+  "tue": {
+    "message": "Di"
+  },
+  "wed": {
+    "message": "Mi"
+  },
+  "thu": {
+    "message": "Do"
+  },
+  "fri": {
+    "message": "Fr"
+  },
+  "sat": {
+    "message": "Sa"
+  },
+  "jan": {
+    "message": "Januar"
+  },
+  "feb": {
+    "message": "Februar"
+  },
+  "mar": {
+    "message": "März"
+  },
+  "apr": {
+    "message": "April"
+  },
+  "may": {
+    "message": "Mai"
+  },
+  "jun": {
+    "message": "Juni"
+  },
+  "jul": {
+    "message": "Juli"
+  },
+  "aug": {
+    "message": "August"
+  },
+  "sep": {
+    "message": "September"
+  },
+  "oct": {
+    "message": "Oktober"
+  },
+  "nov": {
+    "message": "November"
+  },
+  "dec": {
+    "message": "Dezember"
+  },
+  "background": {
+    "message": "Hintergrund"
+  },
+  "locationLabel": {
+    "message": "Ort"
+  },
+  "locationPlaceholder": {
+    "message": "Berlin"
+  },
+  "stateLabel": {
+    "message": "Bundesland"
+  },
+  "backgroundDimLabel": {
+    "message": "Hintergrund-Dimmung"
+  },
+  "clockColorLabel": {
+    "message": "Uhrzeit- & Datumsfarbe"
+  },
+  "enterLocation": {
+    "message": "Bitte Ort eingeben."
+  },
+  "enterState": {
+    "message": "Bitte Bundesland eingeben."
+  },
+  "weatherWidgetTitle": {
+    "message": "Wetter-Widget"
+  },
+  "weekLabel": {
+    "message": "KW $week$",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      }
+    }
+  },
+  "stateBw": {
+    "message": "Baden-Württemberg"
+  },
+  "stateBy": {
+    "message": "Bayern"
+  },
+  "stateBe": {
+    "message": "Berlin"
+  },
+  "stateBb": {
+    "message": "Brandenburg"
+  },
+  "stateHb": {
+    "message": "Bremen"
+  },
+  "stateHh": {
+    "message": "Hamburg"
+  },
+  "stateHe": {
+    "message": "Hessen"
+  },
+  "stateMv": {
+    "message": "Mecklenburg-Vorpommern"
+  },
+  "stateNi": {
+    "message": "Niedersachsen"
+  },
+  "stateNw": {
+    "message": "Nordrhein-Westfalen"
+  },
+  "stateRp": {
+    "message": "Rheinland-Pfalz"
+  },
+  "stateSl": {
+    "message": "Saarland"
+  },
+  "stateSn": {
+    "message": "Sachsen"
+  },
+  "stateSt": {
+    "message": "Sachsen-Anhalt"
+  },
+  "stateSh": {
+    "message": "Schleswig-Holstein"
+  },
+  "stateTh": {
+    "message": "Thüringen"
+  },
+  "defaultLocation": {
+    "message": "Berlin"
+  },
+  "defaultStateCode": {
+    "message": "be"
+  },
+  "close": {
+    "message": "Schließen"
+  },
+  "backgroundChangeShort": {
+    "message": "Ändern"
+  },
+  "backgroundResetShort": {
+    "message": "Zurücksetzen"
+  }
+}
