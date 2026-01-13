@@ -172,8 +172,78 @@ body::after {
   pointer-events: none;
 }
 
-.panel:not(.hidden) {
-  animation: panelIn 320ms ease;
+.panel.panel-animate.panel-enter.panel-anim-fly {
+  animation: panelFlyIn 320ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-fly {
+  animation: panelFlyOut 240ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-rotate {
+  animation: panelRotateIn 360ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-rotate {
+  animation: panelRotateOut 260ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-slide {
+  animation: panelSlideIn 300ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-slide {
+  animation: panelSlideOut 220ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-fade {
+  animation: panelFadeIn 220ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-fade {
+  animation: panelFadeOut 180ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-scale {
+  animation: panelScaleIn 240ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-scale {
+  animation: panelScaleOut 180ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-flip {
+  animation: panelFlipIn 360ms ease;
+  transform-style: preserve-3d;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-flip {
+  animation: panelFlipOut 260ms ease;
+  transform-style: preserve-3d;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-bounce {
+  animation: panelBounceIn 420ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-bounce {
+  animation: panelBounceOut 220ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-blur {
+  animation: panelBlurIn 320ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-blur {
+  animation: panelBlurOut 220ms ease;
+}
+
+.panel.panel-animate.panel-enter.panel-anim-skew {
+  animation: panelSkewIn 300ms ease;
+}
+
+.panel.panel-animate.panel-exit.panel-anim-skew {
+  animation: panelSkewOut 220ms ease;
 }
 
 .panel__header {
@@ -261,6 +331,11 @@ body::after {
   position: relative;
   display: flex;
   align-items: center;
+}
+
+.dock__menu .dock__button {
+  height: 100%;
+  align-self: stretch;
 }
 
 .dock__dropdown {
@@ -358,8 +433,30 @@ body::after {
   border-radius: 24px;
   padding: 28px;
   width: min(420px, 90vw);
+  max-height: 60vh;
+  overflow-y: auto;
   box-shadow: var(--shadow);
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 247, 255, 0.35) transparent;
+}
+
+.modal__content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal__content::-webkit-scrollbar-thumb {
+  background: rgba(245, 247, 255, 0.2);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.modal__content::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 247, 255, 0.35);
 }
 
 .modal__header {
@@ -387,7 +484,7 @@ body::after {
   cursor: pointer;
 }
 
-@keyframes panelIn {
+@keyframes panelFlyIn {
   from {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
@@ -395,6 +492,197 @@ body::after {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panelFlyOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+@keyframes panelRotateIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) rotate(-3deg) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes panelRotateOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) rotate(2deg) scale(0.98);
+  }
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes panelSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes panelFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes panelScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes panelScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes panelFlipIn {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateY(-10deg) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(900px) rotateY(0deg) translateY(0);
+  }
+}
+
+@keyframes panelFlipOut {
+  from {
+    opacity: 1;
+    transform: perspective(900px) rotateY(0deg) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: perspective(900px) rotateY(8deg) translateY(6px);
+  }
+}
+
+@keyframes panelBounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panelBounceOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes panelBlurIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes panelBlurOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes panelSkewIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) skewY(-2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) skewY(0deg);
+  }
+}
+
+@keyframes panelSkewOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) skewY(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) skewY(2deg);
   }
 }
 

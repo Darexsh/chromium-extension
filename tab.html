@@ -80,7 +80,7 @@
         <div class="panel__content">
           <section id="speedtestDiv" class="container container--speedtest">
             <div class="speedtest-wrapper">
-              <iframe src="https://www.metercustom.net/plugin/" loading="lazy" sandbox="allow-scripts allow-same-origin" class="speedtest-iframe"></iframe>
+              <iframe data-src="https://www.metercustom.net/plugin/" src="about:blank" loading="lazy" sandbox="allow-scripts allow-same-origin" class="speedtest-iframe"></iframe>
             </div>
           </section>
         </div>
@@ -94,41 +94,133 @@
         <h2 data-i18n="settings"></h2>
         <button id="closeSettingsModal" class="close-modal" data-i18n-aria-label="close">&times;</button>
       </div>
-      <div class="setting">
-        <label for="locationInput" data-i18n="locationLabel"></label>
-        <input type="text" id="locationInput" autocomplete="address-level2" data-i18n-placeholder="locationPlaceholder">
-        <button id="saveWeather" class="action-button" data-i18n="save"></button>
-      </div>
-      <div class="setting">
-        <label for="stateInput" data-i18n="stateLabel"></label>
-        <select id="stateInput" autocomplete="address-level1">
-          <option value="bw" data-i18n="stateBw"></option>
-          <option value="by" data-i18n="stateBy"></option>
-          <option value="be" data-i18n="stateBe"></option>
-          <option value="bb" data-i18n="stateBb"></option>
-          <option value="hb" data-i18n="stateHb"></option>
-          <option value="hh" data-i18n="stateHh"></option>
-          <option value="he" data-i18n="stateHe"></option>
-          <option value="mv" data-i18n="stateMv"></option>
-          <option value="ni" data-i18n="stateNi"></option>
-          <option value="nw" data-i18n="stateNw"></option>
-          <option value="rp" data-i18n="stateRp"></option>
-          <option value="sl" data-i18n="stateSl"></option>
-          <option value="sn" data-i18n="stateSn"></option>
-          <option value="st" data-i18n="stateSt"></option>
-          <option value="sh" data-i18n="stateSh"></option>
-          <option value="th" data-i18n="stateTh"></option>
-        </select>
-        <button id="saveState" class="action-button" data-i18n="save"></button>
-      </div>
-      <div class="setting">
-        <label for="backgroundDim" data-i18n="backgroundDimLabel"></label>
-        <input type="range" id="backgroundDim" min="0" max="100" step="5" value="20">
-      </div>
-      <div class="setting">
-        <label for="clockColor" data-i18n="clockColorLabel"></label>
-        <input type="color" id="clockColor" value="#f5f7ff">
-      </div>
+      <div id="settingsToast" class="settings-toast" role="status" aria-live="polite"></div>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionWeather"></h3>
+        <div class="setting">
+          <label for="locationInput" data-i18n="locationLabel"></label>
+          <input type="text" id="locationInput" autocomplete="address-level2" data-i18n-placeholder="locationPlaceholder">
+          <button id="saveWeather" class="action-button" data-i18n="save"></button>
+        </div>
+        <div class="setting">
+          <label for="stateInput" data-i18n="stateLabel"></label>
+          <select id="stateInput" autocomplete="address-level1" data-custom-select>
+            <option value="bw" data-i18n="stateBw"></option>
+            <option value="by" data-i18n="stateBy"></option>
+            <option value="be" data-i18n="stateBe"></option>
+            <option value="bb" data-i18n="stateBb"></option>
+            <option value="hb" data-i18n="stateHb"></option>
+            <option value="hh" data-i18n="stateHh"></option>
+            <option value="he" data-i18n="stateHe"></option>
+            <option value="mv" data-i18n="stateMv"></option>
+            <option value="ni" data-i18n="stateNi"></option>
+            <option value="nw" data-i18n="stateNw"></option>
+            <option value="rp" data-i18n="stateRp"></option>
+            <option value="sl" data-i18n="stateSl"></option>
+            <option value="sn" data-i18n="stateSn"></option>
+            <option value="st" data-i18n="stateSt"></option>
+            <option value="sh" data-i18n="stateSh"></option>
+            <option value="th" data-i18n="stateTh"></option>
+          </select>
+          <button id="saveState" class="action-button" data-i18n="save"></button>
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionAppearance"></h3>
+        <div class="setting">
+          <label for="backgroundDim" data-i18n="backgroundDimLabel"></label>
+          <input type="range" id="backgroundDim" min="0" max="100" step="5" value="20">
+        </div>
+        <div class="setting">
+          <label for="clockColorTrigger" data-i18n="clockColorLabel"></label>
+          <div class="color-picker" id="clockColorPicker">
+            <button id="clockColorTrigger" class="color-picker__trigger" type="button" aria-expanded="false">
+              <span class="color-picker__swatch" id="clockColorSwatch" aria-hidden="true"></span>
+            </button>
+            <div class="color-picker__panel" id="clockColorPanel">
+              <div class="color-picker__controls">
+                <div class="color-picker__wheel" id="clockColorWheel">
+                  <div class="color-picker__wheel-handle" id="clockColorWheelHandle"></div>
+                </div>
+                <div class="color-picker__square" id="clockColorSquare">
+                  <div class="color-picker__square-handle" id="clockColorSquareHandle"></div>
+                </div>
+              </div>
+              <div class="color-picker__row">
+                <label for="clockColorHex" data-i18n="colorPickerHexLabel"></label>
+                <input type="text" id="clockColorHex" maxlength="7" value="#f5f7ff">
+              </div>
+              <div class="color-picker__row">
+                <label data-i18n="colorPickerRgbLabel"></label>
+                <div class="color-picker__rgb">
+                  <input type="number" id="clockColorRgbR" min="0" max="255" value="245" aria-label="Red">
+                  <input type="number" id="clockColorRgbG" min="0" max="255" value="247" aria-label="Green">
+                  <input type="number" id="clockColorRgbB" min="0" max="255" value="255" aria-label="Blue">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="setting">
+          <label for="widgetAnimation" data-i18n="widgetAnimationLabel"></label>
+          <select id="widgetAnimation" data-custom-select>
+            <option value="none" data-i18n="widgetAnimationNone"></option>
+            <option value="fly" data-i18n="widgetAnimationFly"></option>
+            <option value="slide" data-i18n="widgetAnimationSlide"></option>
+            <option value="rotate" data-i18n="widgetAnimationRotate"></option>
+            <option value="fade" data-i18n="widgetAnimationFade"></option>
+            <option value="scale" data-i18n="widgetAnimationScale"></option>
+            <option value="flip" data-i18n="widgetAnimationFlip"></option>
+            <option value="bounce" data-i18n="widgetAnimationBounce"></option>
+            <option value="blur" data-i18n="widgetAnimationBlur"></option>
+            <option value="skew" data-i18n="widgetAnimationSkew"></option>
+          </select>
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionSlideshow"></h3>
+        <div class="setting" data-slideshow-setting>
+          <label for="slideshowInterval" data-i18n="slideshowIntervalLabel"></label>
+          <select id="slideshowInterval" data-custom-select>
+            <option value="1" data-i18n="slideshowOption1"></option>
+            <option value="5" data-i18n="slideshowOption5"></option>
+            <option value="10" data-i18n="slideshowOption10"></option>
+            <option value="30" data-i18n="slideshowOption30"></option>
+            <option value="60" data-i18n="slideshowOption60"></option>
+            <option value="120" data-i18n="slideshowOption120"></option>
+            <option value="1440" data-i18n="slideshowOption1440"></option>
+            <option value="custom" data-i18n="slideshowOptionCustom"></option>
+          </select>
+          <div class="setting__inline">
+            <input
+              type="number"
+              id="slideshowIntervalCustomValue"
+              min="1"
+              step="1"
+              value="60"
+              data-i18n-aria-label="slideshowCustomValueAria"
+            >
+            <select id="slideshowIntervalCustomUnit" data-i18n-aria-label="slideshowCustomUnitAria" data-custom-select>
+              <option value="minutes" data-i18n="slideshowCustomUnitMinutes"></option>
+              <option value="hours" data-i18n="slideshowCustomUnitHours"></option>
+              <option value="days" data-i18n="slideshowCustomUnitDays"></option>
+            </select>
+          </div>
+        </div>
+        <div class="setting" data-slideshow-setting>
+          <label for="slideshowShuffle" data-i18n="slideshowShuffleLabel"></label>
+          <select id="slideshowShuffle" data-custom-select>
+            <option value="off" data-i18n="slideshowShuffleOff"></option>
+            <option value="on" data-i18n="slideshowShuffleOn"></option>
+          </select>
+        </div>
+      </section>
+      <section class="settings-section">
+        <div class="setting">
+          <label data-i18n="storageUsageLabel"></label>
+          <div id="storageUsageValue" class="setting__info">-</div>
+        </div>
+      </section>
     </div>
   </div>
 
@@ -151,10 +243,12 @@
         <span data-i18n="background"></span>
       </button>
       <div id="backgroundDropdown" class="dock__dropdown hidden">
+        <button id="changeBackgroundSlideshow" class="dock__dropdown-item" data-i18n="backgroundSlideshowShort"></button>
         <button id="changeBackground" class="dock__dropdown-item" data-i18n="backgroundChangeShort"></button>
         <button id="resetBackground" class="dock__dropdown-item" data-i18n="backgroundResetShort"></button>
       </div>
       <input type="file" id="backgroundInput" accept="image/*" style="display: none;">
+      <input type="file" id="backgroundSlideshowInput" accept="image/*" webkitdirectory multiple style="display: none;">
     </div>
     <button id="toggleSettings" class="dock__button" data-i18n-aria-label="settings" aria-expanded="false">
       <i class="fa-solid fa-gear" aria-hidden="true"></i>

@@ -5,7 +5,7 @@
 🌐 Chromium Extension
 ============================
 
-**A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and background images**  
+**A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and dynamic backgrounds**  
 🖥️📅☁️⚡🌈
 
 ![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![Lizenz](https://img.shields.io/badge/Lizenz-NonCommercial%20MIT-blue) ![Version](https://img.shields.io/badge/Version-6.0-orange)
@@ -97,27 +97,37 @@ Here’s how the extension looks in action:
 
 * **Center (top):** Current time, date, and calendar week
     
-* **Left widget:** Calendar with holidays (via api-feiertage.de)
-    
-* **Middle widget:** Weather widget (WetterOnline iframe)
-    
-    * Default location: `Berlin`
-        
-    * Change the city in **Settings**
-        
-* **Right widget:** Speedtest widget
+* **Widgets:** Calendar with holidays (api-feiertage.de), Weather (WetterOnline), Speedtest
     
 * **Dock (bottom):** Calendar, Weather, Speedtest, Background, Settings
     
+* **Backgrounds:**
+    
+    * Single image or **slideshow** from a selected folder
+        
+    * Slideshow interval (1/5/10/30 min, 1/2 hours, daily, or custom)
+        
+    * Shuffle mode
+        
+    * Background dimming slider (0–100)
+        
+* **Appearance:**
+    
+    * Custom clock color with a glass **ring color picker**
+        
+    * Multiple widget open animations (or no animation)
+        
 * **Settings:**
     
     * City input for the weather widget
         
     * Bundesland selector (holidays by state)
         
-    * Background dimming slider (0–100)
+    * Storage usage display
         
-    * Color picker for time/date text
+* **Performance:**
+    
+    * Heavy iframes load only when the widget is opened
 
 * * *
 
@@ -126,9 +136,7 @@ Here’s how the extension looks in action:
 
 * Weather and holiday settings are saved in browser storage
     
-* Background images can be replaced with your own (default must replace `default.png`)
-    
-* Images set with the buttons are saved through browser storage
+* Background images and slideshows are stored in browser storage
     
 * Works best on the latest Chromium-based browsers
 

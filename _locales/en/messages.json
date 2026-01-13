@@ -215,5 +215,131 @@
   },
   "backgroundResetShort": {
     "message": "Reset"
+  },
+  "backgroundSlideshowShort": {
+    "message": "Slideshow"
+  },
+  "backgroundSlideshowEmpty": {
+    "message": "No images found in the selected folder."
+  },
+  "slideshowIntervalLabel": {
+    "message": "Slideshow interval"
+  },
+  "slideshowShuffleLabel": {
+    "message": "Shuffle"
+  },
+  "slideshowOption1": {
+    "message": "Every 1 min"
+  },
+  "slideshowOption5": {
+    "message": "Every 5 min"
+  },
+  "slideshowOption10": {
+    "message": "Every 10 min"
+  },
+  "slideshowOption30": {
+    "message": "Every 30 min"
+  },
+  "slideshowOption60": {
+    "message": "Every 1 hour"
+  },
+  "slideshowOption120": {
+    "message": "Every 2 hours"
+  },
+  "slideshowOption1440": {
+    "message": "Every 1 day"
+  },
+  "slideshowOptionCustom": {
+    "message": "Custom"
+  },
+  "slideshowCustomUnitMinutes": {
+    "message": "Minutes"
+  },
+  "slideshowCustomUnitHours": {
+    "message": "Hours"
+  },
+  "slideshowCustomUnitDays": {
+    "message": "Days"
+  },
+  "slideshowCustomValueAria": {
+    "message": "Custom interval value"
+  },
+  "slideshowCustomUnitAria": {
+    "message": "Custom interval unit"
+  },
+  "slideshowShuffleOff": {
+    "message": "Off"
+  },
+  "slideshowShuffleOn": {
+    "message": "On"
+  },
+  "backgroundSaveFailed": {
+    "message": "Could not save the background. Try fewer or smaller images."
+  },
+  "storageUsageLabel": {
+    "message": "Storage usage for the new tab"
+  },
+  "settingsSectionWeather": {
+    "message": "Weather"
+  },
+  "settingsSectionAppearance": {
+    "message": "Appearance"
+  },
+  "settingsSectionSlideshow": {
+    "message": "Slideshow"
+  },
+  "settingsSectionStorage": {
+    "message": "Storage"
+  },
+  "settingsSaved": {
+    "message": "Saved"
+  },
+  "widgetAnimationLabel": {
+    "message": "Widget animation"
+  },
+  "widgetAnimationNone": {
+    "message": "None"
+  },
+  "widgetAnimationFly": {
+    "message": "Fly in"
+  },
+  "widgetAnimationRotate": {
+    "message": "Rotate in"
+  },
+  "widgetAnimationSlide": {
+    "message": "Slide in"
+  },
+  "widgetAnimationFade": {
+    "message": "Fade"
+  },
+  "widgetAnimationScale": {
+    "message": "Scale"
+  },
+  "widgetAnimationFlip": {
+    "message": "Flip"
+  },
+  "widgetAnimationBounce": {
+    "message": "Bounce"
+  },
+  "widgetAnimationBlur": {
+    "message": "Blur"
+  },
+  "widgetAnimationSkew": {
+    "message": "Skew"
+  },
+  "colorPickerHexLabel": {
+    "message": "Hex"
+  },
+  "colorPickerHueLabel": {
+    "message": "Hue"
+  },
+  "colorPickerSaturationLabel": {
+    "message": "Saturation"
+  },
+  "colorPickerLightnessLabel": {
+    "message": "Lightness"
+  },
+  "colorPickerRgbLabel": {
+    "message": "RGB"
   }
 }

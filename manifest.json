@@ -15,7 +15,8 @@
     },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "unlimitedStorage"
   ],
   "host_permissions": [
     "https://get.api-feiertage.de/*"

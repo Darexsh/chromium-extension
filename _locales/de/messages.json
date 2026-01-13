@@ -215,5 +215,131 @@
   },
   "backgroundResetShort": {
     "message": "Zurücksetzen"
+  },
+  "backgroundSlideshowShort": {
+    "message": "Diashow"
+  },
+  "backgroundSlideshowEmpty": {
+    "message": "Keine Bilder im ausgewählten Ordner gefunden."
+  },
+  "slideshowIntervalLabel": {
+    "message": "Diashow-Intervall"
+  },
+  "slideshowShuffleLabel": {
+    "message": "Zufall"
+  },
+  "slideshowOption1": {
+    "message": "Alle 1 Min."
+  },
+  "slideshowOption5": {
+    "message": "Alle 5 Min."
+  },
+  "slideshowOption10": {
+    "message": "Alle 10 Min."
+  },
+  "slideshowOption30": {
+    "message": "Alle 30 Min."
+  },
+  "slideshowOption60": {
+    "message": "Alle 1 Std."
+  },
+  "slideshowOption120": {
+    "message": "Alle 2 Std."
+  },
+  "slideshowOption1440": {
+    "message": "Alle 1 Tag"
+  },
+  "slideshowOptionCustom": {
+    "message": "Benutzerdefiniert"
+  },
+  "slideshowCustomUnitMinutes": {
+    "message": "Minuten"
+  },
+  "slideshowCustomUnitHours": {
+    "message": "Stunden"
+  },
+  "slideshowCustomUnitDays": {
+    "message": "Tage"
+  },
+  "slideshowCustomValueAria": {
+    "message": "Benutzerdefinierter Intervallwert"
+  },
+  "slideshowCustomUnitAria": {
+    "message": "Benutzerdefinierte Intervall-Einheit"
+  },
+  "slideshowShuffleOff": {
+    "message": "Aus"
+  },
+  "slideshowShuffleOn": {
+    "message": "An"
+  },
+  "backgroundSaveFailed": {
+    "message": "Hintergrund konnte nicht gespeichert werden. Bitte weniger oder kleinere Bilder nutzen."
+  },
+  "storageUsageLabel": {
+    "message": "Speicherverbrauch des New Tabs"
+  },
+  "settingsSectionWeather": {
+    "message": "Wetter"
+  },
+  "settingsSectionAppearance": {
+    "message": "Darstellung"
+  },
+  "settingsSectionSlideshow": {
+    "message": "Diashow"
+  },
+  "settingsSectionStorage": {
+    "message": "Speicher"
+  },
+  "settingsSaved": {
+    "message": "Gespeichert"
+  },
+  "widgetAnimationLabel": {
+    "message": "Widget-Animation"
+  },
+  "widgetAnimationNone": {
+    "message": "Keine"
+  },
+  "widgetAnimationFly": {
+    "message": "Einfliegen"
+  },
+  "widgetAnimationRotate": {
+    "message": "Drehen"
+  },
+  "widgetAnimationSlide": {
+    "message": "Schieben"
+  },
+  "widgetAnimationFade": {
+    "message": "Einblenden"
+  },
+  "widgetAnimationScale": {
+    "message": "Skalieren"
+  },
+  "widgetAnimationFlip": {
+    "message": "Klappen"
+  },
+  "widgetAnimationBounce": {
+    "message": "Federn"
+  },
+  "widgetAnimationBlur": {
+    "message": "Unschärfe"
+  },
+  "widgetAnimationSkew": {
+    "message": "Schräg"
+  },
+  "colorPickerHexLabel": {
+    "message": "Hex"
+  },
+  "colorPickerHueLabel": {
+    "message": "Farbton"
+  },
+  "colorPickerSaturationLabel": {
+    "message": "Sättigung"
+  },
+  "colorPickerLightnessLabel": {
+    "message": "Helligkeit"
+  },
+  "colorPickerRgbLabel": {
+    "message": "RGB"
   }
 }
