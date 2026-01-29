@@ -8,7 +8,7 @@
 **A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and dynamic backgrounds**  
 🖥️📅☁️⚡🌈
 
-![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-6.0-orange)
+![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-6.0-orange) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/darexsh)
 
 </div>
 
