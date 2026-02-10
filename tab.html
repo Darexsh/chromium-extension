@@ -34,8 +34,28 @@
             <div class="calendar">
               <header class="calendar__header">
                 <button id="prevMonth" class="calendar__button calendar__button--prev" data-i18n-aria-label="previousMonth">&lt;</button>
-                <h2 id="currentMonth" class="calendar__month-name"></h2>
+                <button id="calendarJumpToggle" class="calendar__month-button" type="button" aria-expanded="false">
+                  <span id="currentMonth" class="calendar__month-name"></span>
+                </button>
                 <button id="nextMonth" class="calendar__button calendar__button--next" data-i18n-aria-label="nextMonth">&gt;</button>
+                <div id="calendarJumpPanel" class="calendar__jump-panel hidden">
+                  <select id="calendarJumpMonth" class="calendar__jump-select" data-custom-select>
+                    <option value="0" data-i18n="jan"></option>
+                    <option value="1" data-i18n="feb"></option>
+                    <option value="2" data-i18n="mar"></option>
+                    <option value="3" data-i18n="apr"></option>
+                    <option value="4" data-i18n="may"></option>
+                    <option value="5" data-i18n="jun"></option>
+                    <option value="6" data-i18n="jul"></option>
+                    <option value="7" data-i18n="aug"></option>
+                    <option value="8" data-i18n="sep"></option>
+                    <option value="9" data-i18n="oct"></option>
+                    <option value="10" data-i18n="nov"></option>
+                    <option value="11" data-i18n="dec"></option>
+                  </select>
+                  <input id="calendarJumpYear" class="calendar__jump-year" type="number" min="1900" max="2100" step="1" data-i18n-aria-label="calendarJumpYearAria">
+                  <button id="calendarJumpGo" class="calendar__jump-button" type="button" data-i18n="calendarJumpGo"></button>
+                </div>
               </header>
               <div class="day-names">
                 <span class="day-name" data-i18n="mon"></span>
@@ -216,10 +236,129 @@
         </div>
       </section>
       <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionWidgets"></h3>
+        <div class="setting">
+          <label for="widgetCalendarVisibility" data-i18n="widgetCalendarLabel"></label>
+          <select id="widgetCalendarVisibility" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="widgetWeatherVisibility" data-i18n="widgetWeatherLabel"></label>
+          <select id="widgetWeatherVisibility" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="widgetSpeedtestVisibility" data-i18n="widgetSpeedtestLabel"></label>
+          <select id="widgetSpeedtestVisibility" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <p class="settings-section__hint" data-i18n="settingsShortcutsHint"></p>
+      </section>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionTime"></h3>
+        <div class="setting">
+          <label for="timeFormatSelect" data-i18n="timeFormatLabel"></label>
+          <select id="timeFormatSelect" data-custom-select>
+            <option value="24h" data-i18n="timeFormat24"></option>
+            <option value="12h" data-i18n="timeFormat12"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="timeSecondsSelect" data-i18n="timeSecondsLabel"></label>
+          <select id="timeSecondsSelect" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="timeVisibilitySelect" data-i18n="timeVisibilityLabel"></label>
+          <select id="timeVisibilitySelect" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="dateVisibilitySelect" data-i18n="dateVisibilityLabel"></label>
+          <select id="dateVisibilitySelect" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="weekNumberSelect" data-i18n="weekNumberLabel"></label>
+          <select id="weekNumberSelect" data-custom-select>
+            <option value="on" data-i18n="toggleOn"></option>
+            <option value="off" data-i18n="toggleOff"></option>
+          </select>
+        </div>
+      </section>
+      <section class="settings-section">
         <div class="setting">
           <label data-i18n="storageUsageLabel"></label>
           <div id="storageUsageValue" class="setting__info">-</div>
         </div>
+      </section>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionData"></h3>
+        <div class="setting">
+          <div class="setting__actions">
+            <button id="exportSettings" class="action-button" type="button" data-i18n="settingsExport"></button>
+            <button id="importSettings" class="action-button" type="button" data-i18n="settingsImport"></button>
+            <button id="resetSettings" class="action-button" type="button" data-i18n="settingsReset"></button>
+          </div>
+          <input type="file" id="importSettingsFile" accept="application/json" hidden>
+        </div>
+      </section>
+      <section class="settings-section">
+        <h3 class="settings-section__title" data-i18n="settingsSectionAbout"></h3>
+        <p class="settings-section__meta" data-i18n="settingsAboutDeveloper"></p>
+        <ul class="settings-links">
+          <li>
+            <a
+              class="settings-link"
+              href="https://github.com/Darexsh"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img class="settings-link__icon" src="icons/about/github.png" alt="" aria-hidden="true">
+              <span data-i18n="settingsAboutGithub"></span>
+            </a>
+          </li>
+          <li>
+            <a class="settings-link" href="mailto:sichler.daniel@gmail.com">
+              <img class="settings-link__icon" src="icons/about/gmail.png" alt="" aria-hidden="true">
+              <span data-i18n="settingsAboutEmail"></span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="settings-link"
+              href="https://linktr.ee/darexsh"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img class="settings-link__icon" src="icons/about/linktree.png" alt="" aria-hidden="true">
+              <span data-i18n="settingsAboutSocial"></span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="settings-link"
+              href="https://buymeacoffee.com/darexsh"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img class="settings-link__icon" src="icons/about/buy_me_a_coffee.png" alt="" aria-hidden="true">
+              <span data-i18n="settingsAboutCoffee"></span>
+            </a>
+          </li>
+        </ul>
       </section>
     </div>
   </div>

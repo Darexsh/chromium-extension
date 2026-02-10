@@ -27,6 +27,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .calendar__button {
@@ -46,12 +48,105 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
+.calendar__month-button {
+  background: transparent;
+  border: none;
+  padding: 0.2em 0.4em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.calendar__month-button:hover,
+.calendar__month-button:focus-visible {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
 .calendar__month-name {
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.calendar__jump-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 0.8fr;
+  gap: 0.6em;
+  align-items: center;
+  padding: 0.6em;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-strong);
+  box-shadow: var(--shadow);
+  z-index: 4;
+}
+
+.calendar-body {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar__jump-select,
+.calendar__jump-year {
+  width: 100%;
+  padding: 0.55em 0.7em;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-bright);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  height: 36px;
+}
+
+.calendar__jump-select {
+  min-width: 140px;
+}
+
+
+.calendar__jump-year {
+  text-align: center;
+  appearance: textfield;
+}
+
+.calendar__jump-year::-webkit-outer-spin-button,
+.calendar__jump-year::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.calendar__jump-button {
+  width: 100%;
+  padding: 0.55em 0.9em;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(124, 240, 255, 0.12);
+  color: var(--text-bright);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  height: 36px;
+}
+
+.calendar__jump-panel .custom-select__trigger {
+  height: 36px;
+  padding: 0 0.7em;
+}
+
+.calendar__jump-button:hover {
+  background: rgba(124, 240, 255, 0.2);
+  border-color: rgba(124, 240, 255, 0.45);
+  transform: translateY(-1px);
 }
 
 .day-names {
@@ -78,6 +173,7 @@
 }
 
 .calendar-day {
+  position: relative;
   padding: 10px 5px;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -85,6 +181,32 @@
   font-size: 0.85rem;
   color: var(--text-bright);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.calendar-day.has-holiday::after {
+  content: attr(data-holiday);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(12, 16, 28, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-bright);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.calendar-day.has-holiday:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
 }
 
 .calendar-day:nth-child(7n) {

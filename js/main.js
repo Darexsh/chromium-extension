@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const clockColorRgbR = document.getElementById('clockColorRgbR');
     const clockColorRgbG = document.getElementById('clockColorRgbG');
     const clockColorRgbB = document.getElementById('clockColorRgbB');
+    const calendarJumpMonth = document.getElementById('calendarJumpMonth');
+    const calendarJumpYear = document.getElementById('calendarJumpYear');
+    const calendarJumpGo = document.getElementById('calendarJumpGo');
+    const calendarJumpToggle = document.getElementById('calendarJumpToggle');
+    const calendarJumpPanel = document.getElementById('calendarJumpPanel');
+    const exportSettingsButton = document.getElementById('exportSettings');
+    const importSettingsButton = document.getElementById('importSettings');
+    const importSettingsFile = document.getElementById('importSettingsFile');
+    const resetSettingsButton = document.getElementById('resetSettings');
     const settingsToast = document.getElementById('settingsToast');
     let toastTimer = null;
 
@@ -297,14 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_LOCATION = chrome.i18n.getMessage('defaultLocation') || 'Berlin';
     const DEFAULT_STATE = chrome.i18n.getMessage('defaultStateCode') || 'be';
 
-    function getStoredValue(key) {
-        return localStorage.getItem(key) || '';
-    }
-
-    function setStoredValue(key, value) {
-        localStorage.setItem(key, value);
-    }
-
     function showSettingsToast(message) {
         if (!settingsToast) return;
         settingsToast.textContent = message;
@@ -317,26 +318,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1600);
     }
 
-    const cachedLocation = getStoredValue('locationName').trim();
-    const cachedState = (getStoredValue('stateCode') || DEFAULT_STATE).trim();
-    const initialLocation = cachedLocation || DEFAULT_LOCATION;
-    const initialState = normalizeStateInput(cachedState || DEFAULT_STATE);
-
-    if (locationInput) {
-        locationInput.value = initialLocation;
-    }
-    if (stateInput) {
-        stateInput.value = initialState;
-        stateInput.dispatchEvent(new Event('custom-select:sync'));
-    }
-    setStateCode(initialState);
-    updateWeatherWidget(initialLocation);
-
     chrome.storage.local.get(['locationName', 'stateCode'], (result) => {
         const storedLocation = (result.locationName || '').trim();
         const storedState = (result.stateCode || '').trim();
-        const effectiveLocation = storedLocation || initialLocation;
-        const effectiveState = normalizeStateInput(storedState || initialState);
+        const effectiveLocation = storedLocation || DEFAULT_LOCATION;
+        const effectiveState = normalizeStateInput(storedState || DEFAULT_STATE);
 
         if (locationInput) {
             locationInput.value = effectiveLocation;
@@ -354,8 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!storedState) {
             chrome.storage.local.set({ stateCode: effectiveState });
         }
-        setStoredValue('locationName', effectiveLocation);
-        setStoredValue('stateCode', effectiveState);
     });
 
     chrome.storage.local.get(['backgroundDim', 'clockColor'], (result) => {
@@ -375,9 +359,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentYear = currentDate.getFullYear();
     let currentMonth = currentDate.getMonth();
     createCalendar(currentYear, currentMonth);
+    if (calendarJumpMonth) {
+        calendarJumpMonth.value = String(currentMonth);
+        calendarJumpMonth.dispatchEvent(new Event('custom-select:sync'));
+    }
+    if (calendarJumpYear) {
+        calendarJumpYear.value = String(currentYear);
+    }
 
     function renderCalendar() {
         createCalendar(currentYear, currentMonth);
+        if (calendarJumpMonth) {
+            calendarJumpMonth.value = String(currentMonth);
+            calendarJumpMonth.dispatchEvent(new Event('custom-select:sync'));
+        }
+        if (calendarJumpYear) {
+            calendarJumpYear.value = String(currentYear);
+        }
     }
 
     document.getElementById('prevMonth').addEventListener('click', function (event) {
@@ -392,6 +390,64 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     });
 
+    function closeCalendarJump() {
+        if (calendarJumpPanel) {
+            calendarJumpPanel.classList.add('hidden');
+        }
+        if (calendarJumpToggle) {
+            calendarJumpToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    function openCalendarJump() {
+        if (calendarJumpPanel) {
+            calendarJumpPanel.classList.remove('hidden');
+        }
+        if (calendarJumpToggle) {
+            calendarJumpToggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    if (calendarJumpToggle) {
+        calendarJumpToggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            if (!calendarJumpPanel) return;
+            if (calendarJumpPanel.classList.contains('hidden')) {
+                openCalendarJump();
+            } else {
+                closeCalendarJump();
+            }
+        });
+    }
+
+    if (calendarJumpGo && calendarJumpMonth && calendarJumpYear) {
+        calendarJumpGo.addEventListener('click', () => {
+            const month = Number(calendarJumpMonth.value);
+            const year = Number(calendarJumpYear.value);
+            if (!Number.isFinite(month) || !Number.isFinite(year)) return;
+            if (year < 1900 || year > 2100) return;
+            currentMonth = Math.max(0, Math.min(11, month));
+            currentYear = year;
+            renderCalendar();
+            closeCalendarJump();
+        });
+    }
+
+    if (calendarJumpYear) {
+        calendarJumpYear.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && calendarJumpGo) {
+                calendarJumpGo.click();
+            }
+        });
+    }
+
+    window.addEventListener('click', (event) => {
+        if (!calendarJumpPanel) return;
+        if (!calendarJumpPanel.contains(event.target) && event.target !== calendarJumpToggle && !event.target.closest('#calendarJumpToggle')) {
+            closeCalendarJump();
+        }
+    });
+
     if (saveWeatherButton && locationInput) {
         saveWeatherButton.addEventListener('click', () => {
             const location = locationInput.value.trim();
@@ -401,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const payload = { locationName: location || DEFAULT_LOCATION };
             chrome.storage.local.set(payload, () => {
-                setStoredValue('locationName', payload.locationName);
                 updateWeatherWidget(location);
                 showSettingsToast(chrome.i18n.getMessage("settingsSaved"));
             });
@@ -418,7 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
             chrome.storage.local.set({ stateCode }, () => {
                 setStateCode(stateCode);
                 stateInput.value = stateCode;
-                setStoredValue('stateCode', stateCode);
                 renderCalendar();
                 showSettingsToast(chrome.i18n.getMessage("settingsSaved"));
             });
@@ -560,6 +614,68 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!storageUsageValue) return;
         chrome.storage.local.getBytesInUse(null, (bytes) => {
             storageUsageValue.textContent = formatBytes(bytes);
+        });
+    }
+
+    function downloadJson(filename, data) {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    }
+
+    if (exportSettingsButton) {
+        exportSettingsButton.addEventListener('click', () => {
+            chrome.storage.local.get(null, (data) => {
+                downloadJson('chromium-extension-settings.json', data);
+                showSettingsToast(chrome.i18n.getMessage("settingsExported") || 'Exported');
+            });
+        });
+    }
+
+    if (importSettingsButton && importSettingsFile) {
+        importSettingsButton.addEventListener('click', () => {
+            importSettingsFile.click();
+        });
+    }
+
+    if (importSettingsFile) {
+        importSettingsFile.addEventListener('change', (event) => {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const parsed = JSON.parse(reader.result);
+                    if (!parsed || typeof parsed !== 'object') {
+                        throw new Error('Invalid settings file');
+                    }
+                    chrome.storage.local.set(parsed, () => {
+                        showSettingsToast(chrome.i18n.getMessage("settingsImported") || 'Imported');
+                        window.location.reload();
+                    });
+                } catch (error) {
+                    alert(chrome.i18n.getMessage("settingsImportFailed") || 'Import failed. Please check the file.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        });
+    }
+
+    if (resetSettingsButton) {
+        resetSettingsButton.addEventListener('click', () => {
+            const message = chrome.i18n.getMessage("settingsResetConfirm") || 'Reset all settings to defaults?';
+            if (!confirm(message)) return;
+            chrome.storage.local.clear(() => {
+                showSettingsToast(chrome.i18n.getMessage("settingsResetDone") || 'Reset');
+                window.location.reload();
+            });
         });
     }
 

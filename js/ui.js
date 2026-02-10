@@ -20,7 +20,17 @@ export function initUI() {
   const WIDGET_ANIMATION_OPTIONS = ['none', 'fly', 'slide', 'rotate', 'fade', 'scale', 'flip', 'bounce', 'blur', 'skew'];
   const DEFAULT_WIDGET_ANIMATION = 'fly';
   let widgetAnimation = DEFAULT_WIDGET_ANIMATION;
+  let timeFormat = '24h';
+  let showSeconds = true;
   const widgetAnimationSelect = document.getElementById('widgetAnimation');
+  const timeFormatSelect = document.getElementById('timeFormatSelect');
+  const timeSecondsSelect = document.getElementById('timeSecondsSelect');
+  const timeVisibilitySelect = document.getElementById('timeVisibilitySelect');
+  const dateVisibilitySelect = document.getElementById('dateVisibilitySelect');
+  const weekNumberSelect = document.getElementById('weekNumberSelect');
+  const widgetCalendarVisibility = document.getElementById('widgetCalendarVisibility');
+  const widgetWeatherVisibility = document.getElementById('widgetWeatherVisibility');
+  const widgetSpeedtestVisibility = document.getElementById('widgetSpeedtestVisibility');
 
   function closeCustomSelects() {
     document.querySelectorAll('.custom-select.is-open').forEach((wrapper) => {
@@ -191,6 +201,14 @@ export function initUI() {
     });
   }
 
+  function persistWidgetState(key, isOpen) {
+    chrome.storage.local.get(['widgetOpenState'], (result) => {
+      const current = typeof result.widgetOpenState === 'object' && result.widgetOpenState ? result.widgetOpenState : {};
+      const next = { ...current, [key]: isOpen };
+      chrome.storage.local.set({ widgetOpenState: next });
+    });
+  }
+
   function openWidget(panel) {
     if (!panel || !panel.classList.contains('hidden')) return;
     panel.classList.remove('hidden');
@@ -229,6 +247,42 @@ export function initUI() {
     }
   });
 
+  function applyWidgetVisibility(visibility) {
+    const config = visibility || {};
+    const entries = [
+      ['calendar', widgetCalendarVisibility, 'calendarWidget', 'toggleCalendar'],
+      ['weather', widgetWeatherVisibility, 'weatherWidget', 'toggleWeather'],
+      ['speedtest', widgetSpeedtestVisibility, 'speedtestWidget', 'toggleSpeedtest']
+    ];
+
+    entries.forEach(([key, select, widgetId, toggleId]) => {
+      const visible = config[key] !== false;
+      const widget = document.getElementById(widgetId);
+      const toggle = document.getElementById(toggleId);
+      if (select) {
+        select.value = visible ? 'on' : 'off';
+        select.dispatchEvent(new Event('custom-select:sync'));
+      }
+      if (toggle) {
+        toggle.style.display = visible ? '' : 'none';
+      }
+      if (widget && !visible) {
+        widget.classList.add('hidden');
+        setToggleState(key, false);
+        persistWidgetState(key, false);
+      }
+    });
+  }
+
+  function updateWidgetVisibility(key, isVisible) {
+    chrome.storage.local.get(['widgetVisibility'], (result) => {
+      const current = typeof result.widgetVisibility === 'object' && result.widgetVisibility ? result.widgetVisibility : {};
+      const next = { ...current, [key]: isVisible };
+      chrome.storage.local.set({ widgetVisibility: next });
+      applyWidgetVisibility(next);
+    });
+  }
+
   Object.keys(toggles).forEach(key => {
     const widget = widgets[key];
     const toggle = toggles[key];
@@ -240,12 +294,30 @@ export function initUI() {
       if (widget.classList.contains('hidden')) {
         openWidget(widget);
         setToggleState(key, true);
+        persistWidgetState(key, true);
       } else {
         closeWidget(widget);
         setToggleState(key, false);
+        persistWidgetState(key, false);
       }
     });
   });
+
+  if (widgetCalendarVisibility) {
+    widgetCalendarVisibility.addEventListener('change', () => {
+      updateWidgetVisibility('calendar', widgetCalendarVisibility.value === 'on');
+    });
+  }
+  if (widgetWeatherVisibility) {
+    widgetWeatherVisibility.addEventListener('change', () => {
+      updateWidgetVisibility('weather', widgetWeatherVisibility.value === 'on');
+    });
+  }
+  if (widgetSpeedtestVisibility) {
+    widgetSpeedtestVisibility.addEventListener('change', () => {
+      updateWidgetVisibility('speedtest', widgetSpeedtestVisibility.value === 'on');
+    });
+  }
 
   document.querySelectorAll('.close-widget').forEach(button => {
     button.addEventListener('click', (e) => {
@@ -253,7 +325,10 @@ export function initUI() {
       const targetWidget = document.getElementById(widgetId);
       if (targetWidget) closeWidget(targetWidget);
       const toggleKey = widgetToToggleKey[widgetId];
-      if (toggleKey) setToggleState(toggleKey, false);
+      if (toggleKey) {
+        setToggleState(toggleKey, false);
+        persistWidgetState(toggleKey, false);
+      }
     });
   });
 
@@ -298,10 +373,44 @@ export function initUI() {
     if (e.key === 'Escape') {
       closeSettings();
       closeCustomSelects();
+      return;
+    }
+
+    const target = e.target;
+    const isTyping = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable);
+    if (isTyping) return;
+
+    if (e.key === 's' || e.key === 'S') {
+      e.preventDefault();
+      openSettings();
+      return;
+    }
+
+    if (e.key === '1' && toggles.calendar && toggles.calendar.style.display !== 'none') {
+      toggles.calendar.click();
+      return;
+    }
+    if (e.key === '2' && toggles.weather && toggles.weather.style.display !== 'none') {
+      toggles.weather.click();
+      return;
+    }
+    if (e.key === '3' && toggles.speedtest && toggles.speedtest.style.display !== 'none') {
+      toggles.speedtest.click();
     }
   });
 
   initCustomSelects();
+
+  chrome.storage.local.get(['widgetVisibility', 'widgetOpenState'], (result) => {
+    applyWidgetVisibility(result.widgetVisibility);
+    const openState = result.widgetOpenState || {};
+    Object.keys(widgets).forEach((key) => {
+      if (openState[key] && toggles[key] && toggles[key].style.display !== 'none') {
+        openWidget(widgets[key]);
+        setToggleState(key, true);
+      }
+    });
+  });
 
   if (widgetAnimationSelect) {
     chrome.storage.local.get(['widgetAnimation'], (result) => {
@@ -313,6 +422,71 @@ export function initUI() {
     widgetAnimationSelect.addEventListener('change', () => {
       widgetAnimation = normalizeWidgetAnimation(widgetAnimationSelect.value);
       chrome.storage.local.set({ widgetAnimation });
+    });
+  }
+
+  if (timeFormatSelect || timeSecondsSelect || timeVisibilitySelect || dateVisibilitySelect || weekNumberSelect) {
+    chrome.storage.local.get(['timeFormat', 'timeSeconds', 'showTime', 'showDate', 'showWeekNumber'], (result) => {
+      timeFormat = result.timeFormat === '12h' ? '12h' : '24h';
+      showSeconds = result.timeSeconds !== 'off';
+      if (timeVisibilitySelect) {
+        const showTime = result.showTime !== 'off';
+        timeVisibilitySelect.value = showTime ? 'on' : 'off';
+        timeVisibilitySelect.dispatchEvent(new Event('custom-select:sync'));
+      }
+      if (dateVisibilitySelect) {
+        const showDate = result.showDate !== 'off';
+        dateVisibilitySelect.value = showDate ? 'on' : 'off';
+        dateVisibilitySelect.dispatchEvent(new Event('custom-select:sync'));
+      }
+      if (weekNumberSelect) {
+        const showWeek = result.showWeekNumber !== 'off';
+        weekNumberSelect.value = showWeek ? 'on' : 'off';
+        weekNumberSelect.dispatchEvent(new Event('custom-select:sync'));
+      }
+      if (timeFormatSelect) {
+        timeFormatSelect.value = timeFormat;
+        timeFormatSelect.dispatchEvent(new Event('custom-select:sync'));
+      }
+      if (timeSecondsSelect) {
+        timeSecondsSelect.value = showSeconds ? 'on' : 'off';
+        timeSecondsSelect.dispatchEvent(new Event('custom-select:sync'));
+      }
+    });
+  }
+
+  if (timeFormatSelect) {
+    timeFormatSelect.addEventListener('change', () => {
+      timeFormat = timeFormatSelect.value === '12h' ? '12h' : '24h';
+      chrome.storage.local.set({ timeFormat });
+    });
+  }
+
+  if (timeSecondsSelect) {
+    timeSecondsSelect.addEventListener('change', () => {
+      showSeconds = timeSecondsSelect.value !== 'off';
+      chrome.storage.local.set({ timeSeconds: showSeconds ? 'on' : 'off' });
+    });
+  }
+
+  if (timeVisibilitySelect) {
+    timeVisibilitySelect.addEventListener('change', () => {
+      const showTime = timeVisibilitySelect.value !== 'off';
+      chrome.storage.local.set({ showTime: showTime ? 'on' : 'off' });
+    });
+  }
+
+  if (dateVisibilitySelect) {
+    dateVisibilitySelect.addEventListener('change', () => {
+      const showDate = dateVisibilitySelect.value !== 'off';
+      chrome.storage.local.set({ showDate: showDate ? 'on' : 'off' });
+    });
+  }
+
+  if (weekNumberSelect) {
+    weekNumberSelect.addEventListener('change', () => {
+      const showWeekNumber = weekNumberSelect.value !== 'off';
+      chrome.storage.local.set({ showWeekNumber: showWeekNumber ? 'on' : 'off' });
     });
   }
 
@@ -726,8 +900,25 @@ export function initUI() {
   // Clock and Date
   function updateTime() {
     const now = new Date();
-    const timeString = now.toLocaleTimeString(chrome.i18n.getUILanguage(), { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    document.getElementById("clockDiv").innerHTML = timeString;
+    const clockEl = document.getElementById("clockDiv");
+    const dateEl = document.getElementById("dateDiv");
+    const timeOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: timeFormat === '12h'
+    };
+    if (showSeconds) {
+      timeOptions.second = '2-digit';
+    }
+    const timeString = now.toLocaleTimeString(chrome.i18n.getUILanguage(), timeOptions);
+    if (clockEl) {
+      if (timeVisibilitySelect && timeVisibilitySelect.value === 'off') {
+        clockEl.style.display = 'none';
+      } else {
+        clockEl.style.display = '';
+        clockEl.innerHTML = timeString;
+      }
+    }
 
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const dateString = now.toLocaleDateString(chrome.i18n.getUILanguage(), options);
@@ -737,8 +928,16 @@ export function initUI() {
     let weekNumber = Math.floor(1 + 0.5 + (currentThursday.getTime() - firstThursday.getTime()) / 86400000 / 7);
     weekNumber = ("0" + weekNumber).slice(-2);
     const weekLabel = chrome.i18n.getMessage("weekLabel", [weekNumber]) || `KW ${weekNumber}`;
-    const dateStringWithWeek = `${dateString} <span class="week-number"> - ${weekLabel}</span>`;
-    document.getElementById("dateDiv").innerHTML = dateStringWithWeek;
+    const showWeek = !weekNumberSelect || weekNumberSelect.value !== 'off';
+    const dateStringWithWeek = showWeek ? `${dateString} <span class="week-number"> - ${weekLabel}</span>` : dateString;
+    if (dateEl) {
+      if (dateVisibilitySelect && dateVisibilitySelect.value === 'off') {
+        dateEl.style.display = 'none';
+      } else {
+        dateEl.style.display = '';
+        dateEl.innerHTML = dateStringWithWeek;
+      }
+    }
 
     const msUntilNextSecond = 1000 - now.getMilliseconds();
     setTimeout(updateTime, msUntilNextSecond);

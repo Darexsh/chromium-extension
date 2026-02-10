@@ -291,8 +291,107 @@
   "settingsSectionStorage": {
     "message": "Storage"
   },
+  "settingsSectionWidgets": {
+    "message": "Widgets"
+  },
+  "settingsSectionTime": {
+    "message": "Time & Date"
+  },
+  "settingsSectionData": {
+    "message": "Data"
+  },
+  "widgetCalendarLabel": {
+    "message": "Calendar widget"
+  },
+  "widgetWeatherLabel": {
+    "message": "Weather widget"
+  },
+  "widgetSpeedtestLabel": {
+    "message": "Speedtest widget"
+  },
+  "toggleOn": {
+    "message": "On"
+  },
+  "toggleOff": {
+    "message": "Off"
+  },
+  "timeFormatLabel": {
+    "message": "Time format"
+  },
+  "timeFormat24": {
+    "message": "24-hour"
+  },
+  "timeFormat12": {
+    "message": "12-hour"
+  },
+  "timeSecondsLabel": {
+    "message": "Show seconds"
+  },
+  "timeVisibilityLabel": {
+    "message": "Show time"
+  },
+  "dateVisibilityLabel": {
+    "message": "Show date"
+  },
+  "weekNumberLabel": {
+    "message": "Show week number"
+  },
+  "settingsShortcutsHint": {
+    "message": "Shortcuts: S = Settings, 1 = Calendar, 2 = Weather, 3 = Speedtest"
+  },
+  "settingsExport": {
+    "message": "Export settings"
+  },
+  "settingsImport": {
+    "message": "Import settings"
+  },
+  "settingsReset": {
+    "message": "Reset settings"
+  },
+  "settingsExported": {
+    "message": "Exported"
+  },
+  "settingsImported": {
+    "message": "Imported"
+  },
+  "settingsImportFailed": {
+    "message": "Import failed. Please check the file."
+  },
+  "settingsResetConfirm": {
+    "message": "Reset all settings to defaults?"
+  },
+  "settingsResetDone": {
+    "message": "Reset"
+  },
+  "settingsSectionAbout": {
+    "message": "About the extension"
+  },
+  "settingsAboutDeveloper": {
+    "message": "Developer: Darexsh by Daniel Sichler"
+  },
+  "settingsAboutGithub": {
+    "message": "GitHub Profile"
+  },
+  "settingsAboutEmail": {
+    "message": "Email"
+  },
+  "settingsAboutSocial": {
+    "message": "Social Links"
+  },
+  "settingsAboutCoffee": {
+    "message": "Buy Me a Coffee"
+  },
   "settingsSaved": {
     "message": "Saved"
+  },
+  "calendarJumpLabel": {
+    "message": "Jump to"
+  },
+  "calendarJumpGo": {
+    "message": "Go"
+  },
+  "calendarJumpYearAria": {
+    "message": "Year"
   },
   "widgetAnimationLabel": {
     "message": "Widget animation"

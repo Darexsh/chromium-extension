@@ -8,7 +8,7 @@
 **A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and dynamic backgrounds**  
 🖥️📅☁️⚡🌈
 
-![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-6.0-orange) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/darexsh)
+![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-2.0.1-orange) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/darexsh)
 
 </div>
 
@@ -98,6 +98,10 @@ Here’s how the extension looks in action:
 * **Center (top):** Current time, date, and calendar week
     
 * **Widgets:** Calendar with holidays (api-feiertage.de), Weather (WetterOnline), Speedtest
+
+    * Holiday tooltips in the calendar
+
+    * Jump to any month/year in the calendar
     
 * **Dock (bottom):** Calendar, Weather, Speedtest, Background, Settings
     
@@ -105,17 +109,19 @@ Here’s how the extension looks in action:
     
     * Single image or **slideshow** from a selected folder
         
-    * Slideshow interval (1/5/10/30 min, 1/2 hours, daily, or custom)
+    * Slideshow interval presets (1/5/10/30 min, 1/2 hours, daily) or custom (minutes/hours/days)
         
-    * Shuffle mode
+    * Shuffle mode (on/off)
         
     * Background dimming slider (0–100)
         
+    * Reset to default background
+        
 * **Appearance:**
     
-    * Custom clock color with a glass **ring color picker**
+    * Custom clock color with a glass **ring color picker**, plus hex + RGB inputs
         
-    * Multiple widget open animations (or no animation)
+    * Multiple widget open animations (fly, slide, rotate, fade, scale, flip, bounce, blur, skew, or none)
         
 * **Settings:**
     
@@ -124,10 +130,57 @@ Here’s how the extension looks in action:
     * Bundesland selector (holidays by state)
         
     * Storage usage display
+
+    * Toggle widget visibility (calendar, weather, speedtest)
+        
+    * Time format (12/24h) and seconds on/off
+        
+    * Toggle time, date, and week number visibility
+        
+    * Export, import, or reset settings
         
 * **Performance:**
     
     * Heavy iframes load only when the widget is opened
+        
+    * Widgets are hidden by default until toggled
+
+    * Widget open/closed state is restored when reopening a new tab
+
+* **Shortcuts:**
+
+    * `S` = Settings, `1` = Calendar, `2` = Weather, `3` = Speedtest
+
+* * *
+
+🔐 Privacy & Data
+-----------------
+
+* **Stored locally:** Weather city, holiday state, background images/slideshows, appearance settings, widget animation, and storage usage metadata are saved with `chrome.storage.local` on your device.
+* **No analytics:** The extension does not collect or transmit personal analytics or tracking data.
+* **No accounts:** There is no login or account system.
+
+* * *
+
+🌍 External Services
+--------------------
+
+The extension embeds external widgets to provide live data:
+
+* **Weather:** WetterOnline widget (`api.wetteronline.de`)
+* **Speedtest:** Metercustom widget (`www.metercustom.net`)
+* **Holidays:** API-Feiertage (`get.api-feiertage.de`)
+
+These services may process your IP address and basic request metadata when loaded.
+
+* * *
+
+🛡️ Permissions
+--------------
+
+* `storage` – Save settings and user preferences
+* `unlimitedStorage` – Allow storing larger background images/slideshows
+* `host_permissions`: `https://get.api-feiertage.de/*` – Fetch holiday data for the calendar
 
 * * *
 

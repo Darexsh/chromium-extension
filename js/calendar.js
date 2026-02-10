@@ -2,11 +2,15 @@ let stateCode = 'by';
 const holidayCache = new Map();
 let lastRenderId = 0;
 
-function createDayElement(day, className) {
+function createDayElement(day, className, holidayName) {
   const dayElement = document.createElement('div');
   dayElement.textContent = day;
   dayElement.classList.add('calendar-day');
   if (className) dayElement.classList.add(className);
+  if (holidayName) {
+    dayElement.classList.add('has-holiday');
+    dayElement.setAttribute('data-holiday', holidayName);
+  }
   document.getElementById('calendarBody').appendChild(dayElement);
 }
 
@@ -129,8 +133,14 @@ export async function createCalendar(year, month) {
   for (let i = 1; i <= lastDay.getDate(); i++) {
     const date = new Date(year, month, i);
     const isToday = date.toDateString() === new Date().toDateString();
-    const className = isHoliday(date, holidayMap) ? 'holiday' : (isToday ? 'today' : '');
-    createDayElement(i, className);
+    let holidayName = '';
+    if (holidayMap) {
+      const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      holidayName = holidayMap.get(dateKey) || '';
+    }
+    const isHolidayFlag = Boolean(holidayName) || isHoliday(date, holidayMap);
+    const className = isHolidayFlag ? 'holiday' : (isToday ? 'today' : '');
+    createDayElement(i, className, holidayName);
   }
 
   // Tage des Folgemonats (optional, um das Grid zu füllen)

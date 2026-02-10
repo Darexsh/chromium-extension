@@ -291,8 +291,107 @@
   "settingsSectionStorage": {
     "message": "Speicher"
   },
+  "settingsSectionWidgets": {
+    "message": "Widgets"
+  },
+  "settingsSectionTime": {
+    "message": "Zeit & Datum"
+  },
+  "settingsSectionData": {
+    "message": "Daten"
+  },
+  "widgetCalendarLabel": {
+    "message": "Kalender-Widget"
+  },
+  "widgetWeatherLabel": {
+    "message": "Wetter-Widget"
+  },
+  "widgetSpeedtestLabel": {
+    "message": "Speedtest-Widget"
+  },
+  "toggleOn": {
+    "message": "An"
+  },
+  "toggleOff": {
+    "message": "Aus"
+  },
+  "timeFormatLabel": {
+    "message": "Zeitformat"
+  },
+  "timeFormat24": {
+    "message": "24-Stunden"
+  },
+  "timeFormat12": {
+    "message": "12-Stunden"
+  },
+  "timeSecondsLabel": {
+    "message": "Sekunden anzeigen"
+  },
+  "timeVisibilityLabel": {
+    "message": "Uhrzeit anzeigen"
+  },
+  "dateVisibilityLabel": {
+    "message": "Datum anzeigen"
+  },
+  "weekNumberLabel": {
+    "message": "Kalenderwoche anzeigen"
+  },
+  "settingsShortcutsHint": {
+    "message": "Shortcuts: S = Einstellungen, 1 = Kalender, 2 = Wetter, 3 = Speedtest"
+  },
+  "settingsExport": {
+    "message": "Einstellungen exportieren"
+  },
+  "settingsImport": {
+    "message": "Einstellungen importieren"
+  },
+  "settingsReset": {
+    "message": "Einstellungen zurücksetzen"
+  },
+  "settingsExported": {
+    "message": "Exportiert"
+  },
+  "settingsImported": {
+    "message": "Importiert"
+  },
+  "settingsImportFailed": {
+    "message": "Import fehlgeschlagen. Bitte Datei prüfen."
+  },
+  "settingsResetConfirm": {
+    "message": "Alle Einstellungen auf Standard zurücksetzen?"
+  },
+  "settingsResetDone": {
+    "message": "Zurückgesetzt"
+  },
+  "settingsSectionAbout": {
+    "message": "Über die Erweiterung"
+  },
+  "settingsAboutDeveloper": {
+    "message": "Entwickler: Darexsh by Daniel Sichler"
+  },
+  "settingsAboutGithub": {
+    "message": "GitHub-Profil"
+  },
+  "settingsAboutEmail": {
+    "message": "E-Mail"
+  },
+  "settingsAboutSocial": {
+    "message": "Soziale Medien"
+  },
+  "settingsAboutCoffee": {
+    "message": "Buy Me a Coffee"
+  },
   "settingsSaved": {
     "message": "Gespeichert"
+  },
+  "calendarJumpLabel": {
+    "message": "Springe zu"
+  },
+  "calendarJumpGo": {
+    "message": "Los"
+  },
+  "calendarJumpYearAria": {
+    "message": "Jahr"
   },
   "widgetAnimationLabel": {
     "message": "Widget-Animation"
