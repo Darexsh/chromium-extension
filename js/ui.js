@@ -520,7 +520,6 @@ export function initUI() {
   function setBackground(url) {
     const backgroundElement = document.querySelector('.background');
     backgroundElement.style.backgroundImage = `url('${url}')`;
-    console.log(chrome.i18n.getMessage("backgroundSet", [url]));
   }
 
   function normalizeInterval(value) {
@@ -791,7 +790,6 @@ export function initUI() {
             slideshowNextIndex = 0;
             setBackground(imageDataUrl);
             setSlideshowSettingsEnabled(false);
-            console.log(chrome.i18n.getMessage("backgroundSaved"));
           });
         });
       } catch (error) {
@@ -891,7 +889,6 @@ export function initUI() {
     resetBackground.addEventListener('click', function () {
       chrome.storage.local.remove(['backgroundImage', 'backgroundSlideshow', 'backgroundSlideshowIndex', 'backgroundMode'], function () {
         applyDefaultBackground();
-        console.log(chrome.i18n.getMessage("backgroundReset"));
       });
       closeBackgroundMenu();
     });

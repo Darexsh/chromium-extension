@@ -40,6 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.min(max, Math.max(min, value));
     }
 
+    function debounce(fn, delayMs) {
+        let timer = null;
+        return (...args) => {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                fn(...args);
+            }, delayMs);
+        };
+    }
+
+    const saveBackgroundDimDebounced = debounce((value) => {
+        chrome.storage.local.set({ backgroundDim: value });
+    }, 120);
+
+    const saveClockColorDebounced = debounce((value) => {
+        chrome.storage.local.set({ clockColor: value });
+    }, 120);
+
     function hexToRgb(hex) {
         const normalized = hex.replace('#', '');
         if (normalized.length === 3) {
@@ -172,10 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const rgb = hsvToRgb(pickerState.h, pickerState.s, pickerState.v);
         const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
         setClockColor(hex);
-        chrome.storage.local.set({ clockColor: hex });
+        saveClockColorDebounced(hex);
         if (clockColorRgbR) clockColorRgbR.value = String(rgb.r);
         if (clockColorRgbG) clockColorRgbG.value = String(rgb.g);
         if (clockColorRgbB) clockColorRgbB.value = String(rgb.b);
+        return hex;
     }
 
     function updatePickerUI() {
@@ -233,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildWeatherUrl(location) {
         const slug = encodeURIComponent(toLocationSlug(location));
         const name = encodeURIComponent(toLocationName(location));
-        return `https://api.wetteronline.de/wetterwidget?gid=10788&modeid=FC3&seourl=${slug}&locationname=${name}&lang=de`;
+        return `https://api.wetteronline.de/wetterwidget?gid=a9446&modeid=CW2&seourl=${slug}&locationname=${name}&lang=de`;
     }
 
     function updateWeatherWidget(value) {
@@ -484,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const value = Number(backgroundDimInput.value);
             const clamped = Math.max(0, Math.min(100, value));
             document.documentElement.style.setProperty('--bg-dim', String(clamped / 100));
-            chrome.storage.local.set({ backgroundDim: clamped });
+            saveBackgroundDimDebounced(clamped);
         });
     }
 
@@ -505,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!normalized) return;
             setClockColor(normalized);
             syncPickerFromHex(normalized);
-            chrome.storage.local.set({ clockColor: normalized });
+            saveClockColorDebounced(normalized);
         });
     }
 
@@ -520,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const hex = rgbToHex(r, g, b);
         setClockColor(hex);
         syncPickerFromHex(hex);
-        chrome.storage.local.set({ clockColor: hex });
+        saveClockColorDebounced(hex);
     }
 
     if (clockColorRgbR) {
@@ -539,6 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clockColorWheel.addEventListener('pointerdown', (event) => {
             clockColorWheel.setPointerCapture(event.pointerId);
             const rect = clockColorWheel.getBoundingClientRect();
+            let latestHex = null;
             const update = (clientX, clientY) => {
                 const dx = clientX - (rect.left + rect.width / 2);
                 const dy = clientY - (rect.top + rect.height / 2);
@@ -546,17 +567,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const deg = (angle * 180) / Math.PI;
                 pickerState.h = (deg + 450) % 360;
                 updatePickerUI();
-                updateClockColorFromPicker();
+                latestHex = updateClockColorFromPicker();
             };
             update(event.clientX, event.clientY);
             const moveHandler = (moveEvent) => update(moveEvent.clientX, moveEvent.clientY);
-            const upHandler = () => {
+            const releaseHandler = () => {
                 clockColorWheel.removeEventListener('pointermove', moveHandler);
-                clockColorWheel.removeEventListener('pointerup', upHandler);
+                clockColorWheel.removeEventListener('pointerup', releaseHandler);
+                clockColorWheel.removeEventListener('pointercancel', releaseHandler);
                 clockColorWheel.releasePointerCapture(event.pointerId);
+                if (latestHex) {
+                    chrome.storage.local.set({ clockColor: latestHex });
+                }
             };
             clockColorWheel.addEventListener('pointermove', moveHandler);
-            clockColorWheel.addEventListener('pointerup', upHandler, { once: true });
+            clockColorWheel.addEventListener('pointerup', releaseHandler, { once: true });
+            clockColorWheel.addEventListener('pointercancel', releaseHandler, { once: true });
         });
     }
 
@@ -564,23 +590,29 @@ document.addEventListener('DOMContentLoaded', () => {
         clockColorSquare.addEventListener('pointerdown', (event) => {
             clockColorSquare.setPointerCapture(event.pointerId);
             const rect = clockColorSquare.getBoundingClientRect();
+            let latestHex = null;
             const update = (clientX, clientY) => {
                 const x = clamp(clientX - rect.left, 0, rect.width);
                 const y = clamp(clientY - rect.top, 0, rect.height);
                 pickerState.s = rect.width ? x / rect.width : 0;
                 pickerState.v = rect.height ? 1 - y / rect.height : 1;
                 updatePickerUI();
-                updateClockColorFromPicker();
+                latestHex = updateClockColorFromPicker();
             };
             update(event.clientX, event.clientY);
             const moveHandler = (moveEvent) => update(moveEvent.clientX, moveEvent.clientY);
-            const upHandler = () => {
+            const releaseHandler = () => {
                 clockColorSquare.removeEventListener('pointermove', moveHandler);
-                clockColorSquare.removeEventListener('pointerup', upHandler);
+                clockColorSquare.removeEventListener('pointerup', releaseHandler);
+                clockColorSquare.removeEventListener('pointercancel', releaseHandler);
                 clockColorSquare.releasePointerCapture(event.pointerId);
+                if (latestHex) {
+                    chrome.storage.local.set({ clockColor: latestHex });
+                }
             };
             clockColorSquare.addEventListener('pointermove', moveHandler);
-            clockColorSquare.addEventListener('pointerup', upHandler, { once: true });
+            clockColorSquare.addEventListener('pointerup', releaseHandler, { once: true });
+            clockColorSquare.addEventListener('pointercancel', releaseHandler, { once: true });
         });
     }
 
@@ -629,6 +661,84 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
     }
 
+    function isPlainObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]';
+    }
+
+    function sanitizeSettingsImport(raw) {
+        if (!isPlainObject(raw)) return {};
+        const sanitized = {};
+        const copyString = (key, maxLen = 500) => {
+            if (typeof raw[key] !== 'string') return;
+            const trimmed = raw[key].trim();
+            if (!trimmed) return;
+            sanitized[key] = trimmed.slice(0, maxLen);
+        };
+        const copyFiniteNumber = (key, min, max) => {
+            if (typeof raw[key] !== 'number' || !Number.isFinite(raw[key])) return;
+            sanitized[key] = Math.min(max, Math.max(min, raw[key]));
+        };
+
+        copyString('locationName', 80);
+        if (typeof raw.stateCode === 'string') {
+            const state = normalizeStateInput(raw.stateCode);
+            if (state) sanitized.stateCode = state;
+        }
+        if (typeof raw.clockColor === 'string') {
+            const color = normalizeHexInput(raw.clockColor);
+            if (color) sanitized.clockColor = color;
+        }
+        copyFiniteNumber('backgroundDim', 0, 100);
+
+        if (typeof raw.widgetAnimation === 'string' && ['none', 'fly', 'slide', 'rotate', 'fade', 'scale', 'flip', 'bounce', 'blur', 'skew'].includes(raw.widgetAnimation)) {
+            sanitized.widgetAnimation = raw.widgetAnimation;
+        }
+        if (typeof raw.timeFormat === 'string' && (raw.timeFormat === '12h' || raw.timeFormat === '24h')) {
+            sanitized.timeFormat = raw.timeFormat;
+        }
+        ['timeSeconds', 'showTime', 'showDate', 'showWeekNumber'].forEach((key) => {
+            if (raw[key] === 'on' || raw[key] === 'off') {
+                sanitized[key] = raw[key];
+            }
+        });
+
+        if (typeof raw.backgroundMode === 'string' && (raw.backgroundMode === 'single' || raw.backgroundMode === 'slideshow')) {
+            sanitized.backgroundMode = raw.backgroundMode;
+        }
+        if (typeof raw.backgroundImage === 'string' && raw.backgroundImage.length) {
+            sanitized.backgroundImage = raw.backgroundImage;
+        }
+        if (Array.isArray(raw.backgroundSlideshow)) {
+            const images = raw.backgroundSlideshow.filter((item) => typeof item === 'string' && item.length);
+            if (images.length) sanitized.backgroundSlideshow = images;
+        }
+        copyFiniteNumber('backgroundSlideshowIndex', 0, Number.MAX_SAFE_INTEGER);
+        copyFiniteNumber('backgroundSlideshowInterval', 1, 60 * 24 * 30);
+        copyFiniteNumber('backgroundSlideshowIntervalCustom', 1, 60 * 24 * 30);
+        if (typeof raw.backgroundSlideshowIntervalSelection === 'string' && (raw.backgroundSlideshowIntervalSelection === 'custom' || ['1', '5', '10', '30', '60', '120', '1440'].includes(raw.backgroundSlideshowIntervalSelection))) {
+            sanitized.backgroundSlideshowIntervalSelection = raw.backgroundSlideshowIntervalSelection;
+        }
+        if (typeof raw.backgroundSlideshowShuffle === 'boolean') {
+            sanitized.backgroundSlideshowShuffle = raw.backgroundSlideshowShuffle;
+        }
+
+        const sanitizeBooleanMap = (value) => {
+            if (!isPlainObject(value)) return null;
+            const out = {};
+            ['calendar', 'weather', 'speedtest'].forEach((key) => {
+                if (typeof value[key] === 'boolean') out[key] = value[key];
+            });
+            return Object.keys(out).length ? out : null;
+        };
+
+        const visibility = sanitizeBooleanMap(raw.widgetVisibility);
+        if (visibility) sanitized.widgetVisibility = visibility;
+        const openState = sanitizeBooleanMap(raw.widgetOpenState);
+        if (openState) sanitized.widgetOpenState = openState;
+
+        return sanitized;
+    }
+
     if (exportSettingsButton) {
         exportSettingsButton.addEventListener('click', () => {
             chrome.storage.local.get(null, (data) => {
@@ -652,10 +762,11 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.onload = () => {
                 try {
                     const parsed = JSON.parse(reader.result);
-                    if (!parsed || typeof parsed !== 'object') {
+                    const sanitized = sanitizeSettingsImport(parsed);
+                    if (!Object.keys(sanitized).length) {
                         throw new Error('Invalid settings file');
                     }
-                    chrome.storage.local.set(parsed, () => {
+                    chrome.storage.local.set(sanitized, () => {
                         showSettingsToast(chrome.i18n.getMessage("settingsImported") || 'Imported');
                         window.location.reload();
                     });

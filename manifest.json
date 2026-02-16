@@ -21,6 +21,6 @@
       "https://get.api-feiertage.de/*"
     ],
     "content_security_policy": {
-      "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://api.wetteronline.de https://www.metercustom.net"
+      "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://*.wetteronline.de https://*.wo-cloud.com https://www.metercustom.net"
     }
 }
