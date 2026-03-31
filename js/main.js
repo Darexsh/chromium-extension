@@ -696,6 +696,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof raw.dockPosition === 'string' && ['bottom', 'left', 'right', 'top'].includes(raw.dockPosition)) {
             sanitized.dockPosition = raw.dockPosition;
         }
+        if (raw.dockTopBottomCollapse === 'on' || raw.dockTopBottomCollapse === 'off') {
+            sanitized.dockTopBottomCollapse = raw.dockTopBottomCollapse;
+        }
         if (typeof raw.timeFormat === 'string' && (raw.timeFormat === '12h' || raw.timeFormat === '24h')) {
             sanitized.timeFormat = raw.timeFormat;
         }

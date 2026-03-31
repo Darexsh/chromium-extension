@@ -32,12 +32,24 @@ export function initUI() {
   const widgetWeatherVisibility = document.getElementById('widgetWeatherVisibility');
   const widgetSpeedtestVisibility = document.getElementById('widgetSpeedtestVisibility');
   const dockPositionSelect = document.getElementById('dockPositionSelect');
+  const dockTopBottomCollapseSelect = document.getElementById('dockTopBottomCollapseSelect');
 
   const DOCK_POSITION_OPTIONS = ['bottom', 'left', 'right', 'top'];
   const DEFAULT_DOCK_POSITION = 'bottom';
+  const DEFAULT_DOCK_TOP_BOTTOM_COLLAPSE = 'on';
 
   function normalizeDockPosition(value) {
     return DOCK_POSITION_OPTIONS.includes(value) ? value : DEFAULT_DOCK_POSITION;
+  }
+
+  function setDockTopBottomCollapseAvailability(dockPosition) {
+    if (!dockTopBottomCollapseSelect) return;
+    const isTopBottom = dockPosition === 'top' || dockPosition === 'bottom';
+    dockTopBottomCollapseSelect.disabled = !isTopBottom;
+    const settingRow = dockTopBottomCollapseSelect.closest('.setting');
+    if (settingRow) {
+      settingRow.classList.toggle('setting--disabled', !isTopBottom);
+    }
   }
 
   function applyDockPosition(value) {
@@ -47,6 +59,20 @@ export function initUI() {
     if (dockPositionSelect) {
       dockPositionSelect.value = dockPosition;
       dockPositionSelect.dispatchEvent(new Event('custom-select:sync'));
+    }
+    setDockTopBottomCollapseAvailability(dockPosition);
+  }
+
+  function normalizeDockTopBottomCollapse(value) {
+    return value === 'off' ? 'off' : DEFAULT_DOCK_TOP_BOTTOM_COLLAPSE;
+  }
+
+  function applyDockTopBottomCollapse(value) {
+    const mode = normalizeDockTopBottomCollapse(value);
+    document.body.classList.toggle('dock-top-bottom-collapse-off', mode === 'off');
+    if (dockTopBottomCollapseSelect) {
+      dockTopBottomCollapseSelect.value = mode;
+      dockTopBottomCollapseSelect.dispatchEvent(new Event('custom-select:sync'));
     }
   }
 
@@ -419,8 +445,9 @@ export function initUI() {
 
   initCustomSelects();
 
-  chrome.storage.local.get(['widgetVisibility', 'widgetOpenState', 'dockPosition'], (result) => {
+  chrome.storage.local.get(['widgetVisibility', 'widgetOpenState', 'dockPosition', 'dockTopBottomCollapse'], (result) => {
     applyDockPosition(result.dockPosition);
+    applyDockTopBottomCollapse(result.dockTopBottomCollapse);
     applyWidgetVisibility(result.widgetVisibility);
     const openState = result.widgetOpenState || {};
     Object.keys(widgets).forEach((key) => {
@@ -436,6 +463,14 @@ export function initUI() {
       const dockPosition = normalizeDockPosition(dockPositionSelect.value);
       applyDockPosition(dockPosition);
       chrome.storage.local.set({ dockPosition });
+    });
+  }
+
+  if (dockTopBottomCollapseSelect) {
+    dockTopBottomCollapseSelect.addEventListener('change', () => {
+      const dockTopBottomCollapse = normalizeDockTopBottomCollapse(dockTopBottomCollapseSelect.value);
+      applyDockTopBottomCollapse(dockTopBottomCollapse);
+      chrome.storage.local.set({ dockTopBottomCollapse });
     });
   }
 

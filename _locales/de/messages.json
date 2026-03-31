@@ -408,6 +408,9 @@
   "dockPositionTop": {
     "message": "Oben"
   },
+  "dockTopBottomCollapseLabel": {
+    "message": "Top/Bottom-Dock einklappen"
+  },
   "widgetAnimationLabel": {
     "message": "Widget-Animation"
   },
