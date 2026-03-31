@@ -15,6 +15,7 @@
 </head>
 <body>
   <div class="background"></div>
+  <video id="backgroundVideo" class="background-video hidden" autoplay muted loop playsinline></video>
   <div class="ambient"></div>
 
   <main class="stage">
@@ -398,11 +399,13 @@
         <span data-i18n="background"></span>
       </button>
       <div id="backgroundDropdown" class="dock__dropdown hidden">
+        <button id="changeBackgroundGif" class="dock__dropdown-item" data-i18n="backgroundGifShort"></button>
         <button id="changeBackgroundSlideshow" class="dock__dropdown-item" data-i18n="backgroundSlideshowShort"></button>
         <button id="changeBackground" class="dock__dropdown-item" data-i18n="backgroundChangeShort"></button>
         <button id="resetBackground" class="dock__dropdown-item" data-i18n="backgroundResetShort"></button>
       </div>
-      <input type="file" id="backgroundInput" accept="image/*" style="display: none;">
+      <input type="file" id="backgroundInput" accept=".jpg,.jpeg,.png,.webp,.bmp,.avif" style="display: none;">
+      <input type="file" id="backgroundGifInput" accept="image/gif,.gif,video/mp4,.mp4" style="display: none;">
       <input type="file" id="backgroundSlideshowInput" accept="image/*" webkitdirectory multiple style="display: none;">
     </div>
     <button id="toggleSettings" class="dock__button" data-i18n-aria-label="settings" aria-expanded="false">

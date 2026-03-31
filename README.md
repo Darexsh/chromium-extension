@@ -116,7 +116,11 @@ Here’s how the extension looks in action:
     
 * **Backgrounds:**
     
-    * Single image or **slideshow** from a selected folder
+    * `Change`: single image background (JPG/PNG/WEBP/BMP/AVIF)
+        
+    * `Gif`: animated GIF or MP4 background
+        
+    * `Slideshow`: rotating images from a selected folder
         
     * Slideshow interval presets (1/5/10/30 min, 1/2 hours, daily) or custom (minutes/hours/days)
         
@@ -165,7 +169,7 @@ Here’s how the extension looks in action:
 🔐 Privacy & Data
 -----------------
 
-* **Stored locally:** Weather city, holiday state, background images/slideshows, appearance settings (including dock position), widget animation, and storage usage metadata are saved with `chrome.storage.local` on your device.
+* **Stored locally:** Weather city, holiday state, background images/GIFs/MP4s/slideshows, appearance settings (including dock position), widget animation, and storage usage metadata are saved with `chrome.storage.local` on your device.
 * **No analytics:** The extension does not collect or transmit personal analytics or tracking data.
 * **No accounts:** There is no login or account system.
 
@@ -188,7 +192,7 @@ These services may process your IP address and basic request metadata when loade
 --------------
 
 * `storage` – Save settings and user preferences
-* `unlimitedStorage` – Allow storing larger background images/slideshows
+* `unlimitedStorage` – Allow storing larger background images/GIFs/MP4s/slideshows
 * `host_permissions`: `https://get.api-feiertage.de/*` – Fetch holiday data for the calendar
 
 * * *
@@ -198,7 +202,7 @@ These services may process your IP address and basic request metadata when loade
 
 * Weather and holiday settings are saved in browser storage
     
-* Background images and slideshows are stored in browser storage
+* Background images, GIFs/MP4s, and slideshows are stored in browser storage
     
 * Works best on the latest Chromium-based browsers
 

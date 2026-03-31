@@ -950,3 +950,21 @@ body.dock-top-bottom-collapse-off.dock-pos-top .dock .dock__button span {
   opacity: 1;
   max-width: 140px;
 }
+
+/* GIF backgrounds: avoid extra filtering so animation stays crisp */
+.background.background--gif {
+  filter: none;
+}
+
+/* Video background layer (for MP4 wallpapers) */
+.background-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.08) brightness(0.95);
+  opacity: calc(1 - (var(--bg-dim) * 0.6));
+  z-index: -4;
+  pointer-events: none;
+}

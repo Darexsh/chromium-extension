@@ -554,9 +554,11 @@ export function initUI() {
 
   // Background
   const backgroundInput = document.getElementById('backgroundInput');
+  const backgroundGifInput = document.getElementById('backgroundGifInput');
   const backgroundSlideshowInput = document.getElementById('backgroundSlideshowInput');
   const resetBackground = document.getElementById('resetBackground');
   const changeBackground = document.getElementById('changeBackground');
+  const changeBackgroundGif = document.getElementById('changeBackgroundGif');
   const changeBackgroundSlideshow = document.getElementById('changeBackgroundSlideshow');
   const toggleBackgroundMenu = document.getElementById('toggleBackgroundMenu');
   const backgroundDropdown = document.getElementById('backgroundDropdown');
@@ -578,10 +580,46 @@ export function initUI() {
   const slideshowIntervalCustomUnit = document.getElementById('slideshowIntervalCustomUnit');
   const slideshowShuffleSelect = document.getElementById('slideshowShuffle');
   const slideshowSettingBlocks = document.querySelectorAll('[data-slideshow-setting]');
+  const backgroundVideo = document.getElementById('backgroundVideo');
+  function isGifUrl(url) {
+    if (!url || typeof url !== 'string') return false;
+    const trimmed = url.trim().toLowerCase();
+    return trimmed.startsWith('data:image/gif') || trimmed.includes('.gif');
+  }
 
-  function setBackground(url) {
+  function isVideoUrl(url) {
+    if (!url || typeof url !== 'string') return false;
+    const trimmed = url.trim().toLowerCase();
+    return trimmed.startsWith('data:video/mp4') || trimmed.includes('.mp4');
+  }
+
+  function setBackground(url, mediaType = 'image') {
     const backgroundElement = document.querySelector('.background');
+    if (!backgroundElement) return;
+
+    if (mediaType === 'video' || isVideoUrl(url)) {
+      backgroundElement.classList.remove('background--gif');
+      backgroundElement.style.backgroundImage = 'none';
+      if (backgroundVideo) {
+        backgroundVideo.classList.remove('hidden');
+        if (backgroundVideo.src !== url) backgroundVideo.src = url;
+        const playPromise = backgroundVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      }
+      return;
+    }
+
+    if (backgroundVideo) {
+      backgroundVideo.pause();
+      backgroundVideo.removeAttribute('src');
+      backgroundVideo.load();
+      backgroundVideo.classList.add('hidden');
+    }
+
     backgroundElement.style.backgroundImage = `url('${url}')`;
+    backgroundElement.classList.toggle('background--gif', isGifUrl(url));
   }
 
   function normalizeInterval(value) {
@@ -697,7 +735,7 @@ export function initUI() {
     setSlideshowSettingsEnabled(false);
   }
 
-  chrome.storage.local.get(['backgroundImage', 'backgroundMode', 'backgroundSlideshow', 'backgroundSlideshowIndex', 'backgroundSlideshowInterval', 'backgroundSlideshowIntervalSelection', 'backgroundSlideshowIntervalCustom', 'backgroundSlideshowShuffle'], function (result) {
+  chrome.storage.local.get(['backgroundImage', 'backgroundSingleType', 'backgroundMode', 'backgroundSlideshow', 'backgroundSlideshowIndex', 'backgroundSlideshowInterval', 'backgroundSlideshowIntervalSelection', 'backgroundSlideshowIntervalCustom', 'backgroundSlideshowShuffle'], function (result) {
     const storedSelection = typeof result.backgroundSlideshowIntervalSelection === 'string' ? result.backgroundSlideshowIntervalSelection : '';
     const storedInterval = Number(result.backgroundSlideshowInterval);
     const storedCustom = Number(result.backgroundSlideshowIntervalCustom);
@@ -745,7 +783,7 @@ export function initUI() {
       slideshowImages = [];
       slideshowCurrentIndex = 0;
       slideshowNextIndex = 0;
-      setBackground(savedBackground);
+      setBackground(savedBackground, result.backgroundSingleType === 'video' ? 'video' : 'image');
       setSlideshowSettingsEnabled(false);
     } else {
       applyDefaultBackground();
@@ -781,6 +819,13 @@ export function initUI() {
     });
   }
 
+  if (changeBackgroundGif && backgroundGifInput) {
+    changeBackgroundGif.addEventListener('click', () => {
+      backgroundGifInput.click();
+      closeBackgroundMenu();
+    });
+  }
+
   if (changeBackgroundSlideshow && backgroundSlideshowInput) {
     changeBackgroundSlideshow.addEventListener('click', () => {
       backgroundSlideshowInput.click();
@@ -797,8 +842,25 @@ export function initUI() {
     });
   }
 
+  function isGifFile(file) {
+    if (!file) return false;
+    if (file.type === 'image/gif') return true;
+    return typeof file.name === 'string' && file.name.toLowerCase().endsWith('.gif');
+  }
+
+  function isVideoMp4File(file) {
+    if (!file) return false;
+    if (file.type === 'video/mp4') return true;
+    return typeof file.name === 'string' && file.name.toLowerCase().endsWith('.mp4');
+  }
   async function compressImageFile(file) {
     const dataUrl = await readFileAsDataUrl(file);
+
+    // Preserve GIFs as-is so animation stays intact for live wallpapers.
+    if (isGifFile(file)) {
+      return dataUrl;
+    }
+
     const image = await new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(img);
@@ -826,7 +888,6 @@ export function initUI() {
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL('image/jpeg', JPEG_QUALITY);
   }
-
   function handleStorageError(messageKey) {
     const error = chrome.runtime?.lastError;
     if (!error) return false;
@@ -837,29 +898,54 @@ export function initUI() {
     return true;
   }
 
+  async function setSingleBackgroundFromFile(file) {
+    if (!file) return;
+    const mediaType = isVideoMp4File(file) ? 'video' : 'image';
+    const mediaDataUrl = mediaType === 'video' ? await readFileAsDataUrl(file) : await compressImageFile(file);
+    return new Promise((resolve) => {
+      chrome.storage.local.set({ backgroundImage: mediaDataUrl, backgroundSingleType: mediaType, backgroundMode: 'single' }, () => {
+        if (handleStorageError('backgroundSaveFailed')) {
+          resolve(false);
+          return;
+        }
+        chrome.storage.local.remove(['backgroundSlideshow', 'backgroundSlideshowIndex'], () => {
+          clearSlideshowTimer();
+          slideshowImages = [];
+          slideshowCurrentIndex = 0;
+          slideshowNextIndex = 0;
+          setBackground(mediaDataUrl, mediaType);
+          setSlideshowSettingsEnabled(false);
+          resolve(true);
+        });
+      });
+    });
+  }
+
   if (backgroundInput) {
     backgroundInput.addEventListener('change', async function (event) {
       const file = event.target.files[0];
-      if (!file) return;
+      event.target.value = '';
+      if (!file || isGifFile(file) || isVideoMp4File(file)) return;
       try {
-        const imageDataUrl = await compressImageFile(file);
-        chrome.storage.local.set({ backgroundImage: imageDataUrl, backgroundMode: 'single' }, function () {
-          if (handleStorageError('backgroundSaveFailed')) return;
-          chrome.storage.local.remove(['backgroundSlideshow', 'backgroundSlideshowIndex'], () => {
-            clearSlideshowTimer();
-            slideshowImages = [];
-            slideshowCurrentIndex = 0;
-            slideshowNextIndex = 0;
-            setBackground(imageDataUrl);
-            setSlideshowSettingsEnabled(false);
-          });
-        });
+        await setSingleBackgroundFromFile(file);
       } catch (error) {
         console.error('Failed to load background image', error);
       }
     });
   }
 
+  if (backgroundGifInput) {
+    backgroundGifInput.addEventListener('change', async function (event) {
+      const file = event.target.files[0];
+      event.target.value = '';
+      if (!file || (!isGifFile(file) && !isVideoMp4File(file))) return;
+      try {
+        await setSingleBackgroundFromFile(file);
+      } catch (error) {
+        console.error('Failed to load GIF/MP4 background', error);
+      }
+    });
+  }
   if (slideshowIntervalSelect) {
     slideshowIntervalSelect.addEventListener('change', () => {
       const selection = slideshowIntervalSelect.value;
@@ -936,7 +1022,7 @@ export function initUI() {
         const images = await Promise.all(files.map(compressImageFile));
         chrome.storage.local.set({ backgroundMode: 'slideshow', backgroundSlideshow: images }, () => {
           if (handleStorageError('backgroundSaveFailed')) return;
-          chrome.storage.local.remove(['backgroundImage'], () => {
+          chrome.storage.local.remove(['backgroundImage', 'backgroundSingleType'], () => {
             startSlideshow(images, 0);
             setSlideshowSettingsEnabled(true);
           });
@@ -949,7 +1035,7 @@ export function initUI() {
 
   if (resetBackground) {
     resetBackground.addEventListener('click', function () {
-      chrome.storage.local.remove(['backgroundImage', 'backgroundSlideshow', 'backgroundSlideshowIndex', 'backgroundMode'], function () {
+      chrome.storage.local.remove(['backgroundImage', 'backgroundSingleType', 'backgroundSlideshow', 'backgroundSlideshowIndex', 'backgroundMode'], function () {
         applyDefaultBackground();
       });
       closeBackgroundMenu();

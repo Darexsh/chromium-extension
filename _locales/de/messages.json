@@ -216,6 +216,9 @@
   "backgroundResetShort": {
     "message": "Zurücksetzen"
   },
+  "backgroundGifShort": {
+    "message": "Gif/MP4"
+  },
   "backgroundSlideshowShort": {
     "message": "Diashow"
   },
