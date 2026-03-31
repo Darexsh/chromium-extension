@@ -8,7 +8,7 @@
 **A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and dynamic backgrounds**  
 🖥️📅☁️⚡🌈
 
-![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-2.0.1-orange)
+![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-2.0.2-orange)
 
 [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-2AABEE?logo=telegram&logoColor=white)](https://t.me/darexsh_bot) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/darexsh)  
 <sub>Check out my bot in Telegram for an easy project overview.<br>If you want to support more projects, you can leave a small donation for a coffee.</sub>
@@ -106,7 +106,13 @@ Here’s how the extension looks in action:
 
     * Jump to any month/year in the calendar
     
-* **Dock (bottom):** Calendar, Weather, Speedtest, Background, Settings
+* **Dock (top/bottom/left/right):** Calendar, Weather, Speedtest, Background, Settings
+
+    * Position can be changed in Settings (top, bottom, left, right)
+
+    * Collapsed by default and expands on hover with smooth animation
+
+    * Widgets and time/date layout automatically adapt to the selected dock side
     
 * **Backgrounds:**
     
@@ -159,7 +165,7 @@ Here’s how the extension looks in action:
 🔐 Privacy & Data
 -----------------
 
-* **Stored locally:** Weather city, holiday state, background images/slideshows, appearance settings, widget animation, and storage usage metadata are saved with `chrome.storage.local` on your device.
+* **Stored locally:** Weather city, holiday state, background images/slideshows, appearance settings (including dock position), widget animation, and storage usage metadata are saved with `chrome.storage.local` on your device.
 * **No analytics:** The extension does not collect or transmit personal analytics or tracking data.
 * **No accounts:** There is no login or account system.
 

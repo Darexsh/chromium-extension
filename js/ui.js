@@ -31,6 +31,24 @@ export function initUI() {
   const widgetCalendarVisibility = document.getElementById('widgetCalendarVisibility');
   const widgetWeatherVisibility = document.getElementById('widgetWeatherVisibility');
   const widgetSpeedtestVisibility = document.getElementById('widgetSpeedtestVisibility');
+  const dockPositionSelect = document.getElementById('dockPositionSelect');
+
+  const DOCK_POSITION_OPTIONS = ['bottom', 'left', 'right', 'top'];
+  const DEFAULT_DOCK_POSITION = 'bottom';
+
+  function normalizeDockPosition(value) {
+    return DOCK_POSITION_OPTIONS.includes(value) ? value : DEFAULT_DOCK_POSITION;
+  }
+
+  function applyDockPosition(value) {
+    const dockPosition = normalizeDockPosition(value);
+    document.body.classList.remove(...DOCK_POSITION_OPTIONS.map((option) => `dock-pos-${option}`));
+    document.body.classList.add(`dock-pos-${dockPosition}`);
+    if (dockPositionSelect) {
+      dockPositionSelect.value = dockPosition;
+      dockPositionSelect.dispatchEvent(new Event('custom-select:sync'));
+    }
+  }
 
   function closeCustomSelects() {
     document.querySelectorAll('.custom-select.is-open').forEach((wrapper) => {
@@ -401,7 +419,8 @@ export function initUI() {
 
   initCustomSelects();
 
-  chrome.storage.local.get(['widgetVisibility', 'widgetOpenState'], (result) => {
+  chrome.storage.local.get(['widgetVisibility', 'widgetOpenState', 'dockPosition'], (result) => {
+    applyDockPosition(result.dockPosition);
     applyWidgetVisibility(result.widgetVisibility);
     const openState = result.widgetOpenState || {};
     Object.keys(widgets).forEach((key) => {
@@ -411,6 +430,14 @@ export function initUI() {
       }
     });
   });
+
+  if (dockPositionSelect) {
+    dockPositionSelect.addEventListener('change', () => {
+      const dockPosition = normalizeDockPosition(dockPositionSelect.value);
+      applyDockPosition(dockPosition);
+      chrome.storage.local.set({ dockPosition });
+    });
+  }
 
   if (widgetAnimationSelect) {
     chrome.storage.local.get(['widgetAnimation'], (result) => {

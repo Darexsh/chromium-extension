@@ -693,6 +693,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof raw.widgetAnimation === 'string' && ['none', 'fly', 'slide', 'rotate', 'fade', 'scale', 'flip', 'bounce', 'blur', 'skew'].includes(raw.widgetAnimation)) {
             sanitized.widgetAnimation = raw.widgetAnimation;
         }
+        if (typeof raw.dockPosition === 'string' && ['bottom', 'left', 'right', 'top'].includes(raw.dockPosition)) {
+            sanitized.dockPosition = raw.dockPosition;
+        }
         if (typeof raw.timeFormat === 'string' && (raw.timeFormat === '12h' || raw.timeFormat === '24h')) {
             sanitized.timeFormat = raw.timeFormat;
         }

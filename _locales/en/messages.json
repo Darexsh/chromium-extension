@@ -393,6 +393,21 @@
   "calendarJumpYearAria": {
     "message": "Year"
   },
+  "dockPositionLabel": {
+    "message": "Dock position"
+  },
+  "dockPositionBottom": {
+    "message": "Bottom"
+  },
+  "dockPositionLeft": {
+    "message": "Left"
+  },
+  "dockPositionRight": {
+    "message": "Right"
+  },
+  "dockPositionTop": {
+    "message": "Top"
+  },
   "widgetAnimationLabel": {
     "message": "Widget animation"
   },
