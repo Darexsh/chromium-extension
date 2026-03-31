@@ -408,7 +408,7 @@ export function initUI() {
     if (e.target === settingsModal) {
       closeSettings();
     }
-    if (backgroundDropdown && !backgroundDropdown.contains(e.target) && e.target !== toggleBackgroundMenu) {
+    if (backgroundDropdown && !backgroundDropdown.contains(e.target) && (!toggleBackgroundMenu || !toggleBackgroundMenu.contains(e.target))) {
       closeBackgroundMenu();
     }
   });
