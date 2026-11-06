@@ -8,7 +8,7 @@
 **A customizable new tab extension with a glass UI, widgets for time, calendar, weather, speedtest, and dynamic backgrounds**  
 🖥️📅☁️⚡🌈
 
-![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-NonCommercial-blue) ![Version](https://img.shields.io/badge/Version-2.0.2-orange)
+![Projekt-Status](https://img.shields.io/badge/Status-Aktiv-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3-blue) ![Version](https://img.shields.io/badge/Version-2.0.2-orange)
 
 [![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-2AABEE?logo=telegram&logoColor=white)](https://t.me/darexsh_bot) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/darexsh)  
 <sub>Check out my bot in Telegram for an easy project overview.<br>If you want to support more projects, you can leave a small donation for a coffee.</sub>
@@ -214,13 +214,17 @@ These services may process your IP address and basic request metadata when loade
 📜 License
 ----------
 
-This project is licensed under the **Non-Commercial Software License (MIT-style) v1.0** and was developed as an educational project. You are free to use, modify, and distribute the code for **non-commercial purposes only**, and must credit the author:
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+
+This license applies to the updater application code in this repository. Upstream patch and app projects remain under their own licenses and notice terms.
 
 **Copyright (c) 2025 Darexsh by Daniel Sichler**
 
-Please include the following notice with any use or distribution:
+You are free to use, study, modify, and redistribute this software under the terms of GPL-3.0.
 
-> Developed by Daniel Sichler aka Darexsh. Licensed under the Non-Commercial Software License (MIT-style) v1.0. See `LICENSE` for details.
+Please include the following notice when redistributing this project:
+
+> **Developer:** Darexsh by Daniel Sichler. Licensed under GNU GPL v3.0. See `LICENSE` for details.
 
 The full license is available in the [LICENSE](LICENSE) file.
 
